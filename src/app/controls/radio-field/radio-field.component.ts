@@ -10,7 +10,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RadioFieldComponent extends BaseInputComponent {
-  formControl = new FormControl(this.control().value)
+  formControl = new FormControl(this.control().value, this.validatorFn)
 
   options = computed(() => this.control().options || [])
 

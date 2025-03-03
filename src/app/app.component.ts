@@ -21,6 +21,6 @@ export class AppComponent {
   form = this.fb.group({})
 
   submit() {
-    console.log(this.form.value)
+    console.log({ value: this.form.value, valid: this.form.valid })
   }
 }

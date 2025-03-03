@@ -10,7 +10,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckboxFieldComponent extends BaseInputComponent {
-  formControl = new FormControl(this.control().value || false)
+  formControl = new FormControl(this.control().value || false, this.validatorFn)
 
   createControl() {
     return this.formControl

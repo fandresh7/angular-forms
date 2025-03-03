@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckboxGroupFieldComponent extends BaseInputComponent {
-  formControl = new FormControl(Array.isArray(this.control().value) ? this.control().value : [])
+  formControl = new FormControl(Array.isArray(this.control().value) ? this.control().value : [], this.validatorFn)
 
   options = computed(() => this.control().options || [])
 

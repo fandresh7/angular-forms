@@ -15,7 +15,7 @@ import { ControlInjector } from '../../pipes/control-injector.pipe'
 export class ArrayFieldComponent extends BaseInputComponent {
   controlResolver = inject(ControlResolver)
   fb = inject(NonNullableFormBuilder)
-  formArray = new FormArray<FormGroup>([])
+  formArray = new FormArray<FormGroup>([], this.validatorFn)
 
   controls = computed(() => this.control().controls || [])
 

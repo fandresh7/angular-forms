@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core'
 import { BaseInputComponent } from '../base-input/base-input.component'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { ControlResolver } from '../../services/control-resolver.service'
 import { AsyncPipe, NgComponentOutlet } from '@angular/common'
 import { ControlInjector } from '../../pipes/control-injector.pipe'
@@ -13,7 +13,7 @@ import { ControlInjector } from '../../pipes/control-injector.pipe'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupFieldComponent extends BaseInputComponent {
-  fb = inject(FormBuilder)
+  fb = inject(NonNullableFormBuilder)
   controlResolver = inject(ControlResolver)
 
   formGroup = this.fb.group({})

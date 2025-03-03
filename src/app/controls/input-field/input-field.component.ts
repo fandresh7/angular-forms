@@ -10,7 +10,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputFieldComponent extends BaseInputComponent {
-  formControl = new FormControl(this.control().value)
+  formControl = new FormControl(this.control().value, this.validatorFn)
 
   createControl() {
     return this.formControl
