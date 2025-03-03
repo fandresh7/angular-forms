@@ -15,7 +15,6 @@ export class HelpTextDirective implements OnInit {
   ngOnInit(): void {
     if (!this.message()) return
 
-    console.log(this.message())
     this.componentRef = this.vcr.createComponent(HelpTextComponent)
     this.componentRef.setInput('message', this.message())
   }
