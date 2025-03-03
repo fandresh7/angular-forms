@@ -1,9 +1,11 @@
 import { computed, Directive, inject, OnInit, StaticProvider } from '@angular/core'
-import { CONTROL_DATA } from '../../utils/control-data.token'
 import { AbstractControl, ControlContainer, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { AsyncPipe, NgComponentOutlet } from '@angular/common'
+import { from, isObservable, of, shareReplay, startWith, switchMap } from 'rxjs'
+
+import { CONTROL_DATA } from '../../utils/control-data.token'
 import { ValidatorsService } from '../../services/validators.service'
 import { ValidatorMessageDirective } from '../../directives/validator-message.directive'
-import { AsyncPipe, NgComponentOutlet } from '@angular/common'
 import { ControlInjector } from '../../pipes/control-injector.pipe'
 import { HelpTextDirective } from '../../directives/help-text.directive'
 import { VisibleControlsPipe } from '../../pipes/visible-controls.pipe'
@@ -29,6 +31,25 @@ export abstract class BaseInputComponent implements OnInit {
   abstract createControl(): AbstractControl
   parentForm = this.controlContainer.control as FormGroup
 
+  options$ = this.parentForm.valueChanges.pipe(
+    startWith(this.parentForm.value),
+    switchMap(() => {
+      const optionsFn = this.control().options
+
+      if (!optionsFn) return of([])
+      if (Array.isArray(optionsFn)) return of(optionsFn)
+
+      const result = optionsFn(this.parentForm)
+
+      if (isObservable(result)) return result
+      if (result instanceof Promise) return from(result)
+      if (Array.isArray(result)) return of(result)
+
+      return of([])
+    }),
+    shareReplay(1)
+  )
+
   ngOnInit(): void {
     this.checkVisible()
 
@@ -37,29 +58,18 @@ export abstract class BaseInputComponent implements OnInit {
 
   checkVisible() {
     const control = this.control()
+    const key = this.key()
 
     if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
-      this.addControl()
+      if (!this.parentForm.contains(key)) {
+        this.parentForm.addControl(key, this.createControl())
+      }
     }
 
     if (control.visible === false || (typeof control.visible === 'function' && !control.visible(this.parentForm))) {
-      this.removeControl()
-    }
-  }
-
-  protected addControl(): void {
-    const key = this.key()
-
-    if (!this.parentForm.contains(key)) {
-      this.parentForm.addControl(key, this.createControl())
-    }
-  }
-
-  protected removeControl(): void {
-    const key = this.key()
-
-    if (this.parentForm.contains(key)) {
-      this.parentForm.removeControl(key)
+      if (this.parentForm.contains(key)) {
+        this.parentForm.removeControl(key)
+      }
     }
   }
 }

@@ -54,12 +54,24 @@ export const example: Control[] = [
         label: 'City',
         name: 'city',
         controlType: 'select',
-        options: [
-          { label: 'Type your subject', value: '', selected: true, disabled: true },
-          { label: 'Bogotá', value: 'bogota' },
-          { label: 'Medellín', value: 'medellin' },
-          { label: 'Cali', value: 'cali' }
-        ]
+        options: form => {
+          const address1 = form.value['address-line-1']
+
+          if (address1 === 'Colombia') {
+            return [
+              { label: 'Type your subject', value: '', selected: true, disabled: true },
+              { label: 'Bogotá', value: 'bogota' },
+              { label: 'Medellín', value: 'medellin' },
+              { label: 'Cali', value: 'cali' }
+            ]
+          } else {
+            return [
+              { label: 'Type your subject', value: '', selected: true, disabled: true },
+              { label: 'New York', value: 'ny' },
+              { label: 'Los Angeles', value: 'la' }
+            ]
+          }
+        }
       }
     ]
   },

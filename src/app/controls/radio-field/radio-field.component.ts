@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
 
@@ -11,8 +11,6 @@ import { BaseInputComponent, controlDeps } from '../base-input/base-input.compon
 })
 export class RadioFieldComponent extends BaseInputComponent {
   formControl = new FormControl(this.control().value, this.validatorFn)
-
-  options = computed(() => this.control().options || [])
 
   createControl() {
     return this.formControl

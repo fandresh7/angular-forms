@@ -1,6 +1,6 @@
 <div>
   <label for="">{{ control().label }}</label>
-  @for (option of options(); track option.value) {
+  @for (option of options$ | async; track option.value) {
     <label>
       <input
         type="checkbox"

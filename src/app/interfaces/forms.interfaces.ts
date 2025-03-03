@@ -1,4 +1,5 @@
 import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms'
+import { Observable } from 'rxjs'
 
 export type ControlType = 'input' | 'group' | 'checkbox' | 'checkbox-group' | 'radio' | 'select' | 'array'
 
@@ -10,6 +11,8 @@ export type ControlValidators = Partial<Record<ValidatorsKeys, ValidatorValue>> 
 
 type Visible = boolean | ((form: FormGroup) => boolean)
 
+type Options = Option[] | ((form: FormGroup) => Option[] | Observable<Option[]>)
+
 export interface Control {
   id: number
   label?: string
@@ -19,7 +22,7 @@ export interface Control {
   type?: unknown
   value?: unknown
   placeholder?: string
-  options?: Option[]
+  options?: Options
   controls?: Control[]
   validators?: ControlValidators
   visible?: Visible
