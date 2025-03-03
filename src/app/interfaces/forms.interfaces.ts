@@ -11,7 +11,7 @@ export type ControlValidators = Partial<Record<ValidatorsKeys, ValidatorValue>> 
 
 type Visible = boolean | ((form: FormGroup) => boolean)
 
-type Options = Option[] | ((form: FormGroup) => Option[] | Observable<Option[]>)
+type Options = Option[] | ((form: FormGroup) => Option[] | Promise<Option[]> | Observable<Option[]>)
 
 export interface Control {
   id: number
