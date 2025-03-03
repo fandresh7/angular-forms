@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
-import { BaseInputComponent, controlProvider } from '../base-input/base-input.component'
-import { FormControl, ReactiveFormsModule } from '@angular/forms'
-import { ValidatorMessageDirective } from '../../directives/validator-message.directive'
+import { FormControl } from '@angular/forms'
+import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 
 @Component({
   selector: 'input-field',
-  imports: [ReactiveFormsModule, ValidatorMessageDirective],
+  imports: [...controlDeps],
   templateUrl: './input-field.component.html',
   styleUrl: './input-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

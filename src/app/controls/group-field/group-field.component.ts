@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core'
-import { BaseInputComponent } from '../base-input/base-input.component'
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { NonNullableFormBuilder } from '@angular/forms'
+import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
 import { ControlResolver } from '../../services/control-resolver.service'
-import { AsyncPipe, NgComponentOutlet } from '@angular/common'
-import { ControlInjector } from '../../pipes/control-injector.pipe'
 
 @Component({
   selector: 'group-field',
-  imports: [ReactiveFormsModule, NgComponentOutlet, AsyncPipe, ControlInjector],
+  imports: [...controlDeps],
   templateUrl: './group-field.component.html',
   styleUrl: './group-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

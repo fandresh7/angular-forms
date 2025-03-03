@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core'
-import { BaseInputComponent } from '../base-input/base-input.component'
-import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { AsyncPipe, NgComponentOutlet } from '@angular/common'
+import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
+import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms'
 import { ControlResolver } from '../../services/control-resolver.service'
-import { ControlInjector } from '../../pipes/control-injector.pipe'
 
 @Component({
   selector: 'array-field',
-  imports: [ReactiveFormsModule, NgComponentOutlet, ControlInjector, AsyncPipe],
+  imports: [...controlDeps],
   templateUrl: './array-field.component.html',
   styleUrl: './array-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
