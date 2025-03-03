@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, Validators } from '@angular/forms'
+import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms'
 
 export type ControlType = 'input' | 'group' | 'checkbox' | 'checkbox-group' | 'radio' | 'select' | 'array'
 
@@ -7,6 +7,8 @@ type ValidatorsKeys = keyof Omit<typeof Validators, 'prototype' | 'compose' | 'c
 type ValidatorValue = boolean | number | string | RegExp
 
 export type ControlValidators = Partial<Record<ValidatorsKeys, ValidatorValue>> & { customValidation?: CustomValidator | CustomValidator[] }
+
+type Visible = boolean | ((form: FormGroup) => boolean)
 
 export interface Control {
   id: number
@@ -20,6 +22,7 @@ export interface Control {
   options?: Option[]
   controls?: Control[]
   validators?: ControlValidators
+  visible?: Visible
 }
 
 export interface Option {

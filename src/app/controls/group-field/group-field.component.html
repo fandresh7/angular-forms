@@ -1,5 +1,5 @@
 <div [formGroup]="formGroup">
-  @for (control of controls(); track control.id) {
+  @for (control of controls() | visibleControls: formGroup; track control.id) {
     <ng-container
       [ngComponentOutlet]="controlResolver.resolve(control) | async"
       [ngComponentOutletInjector]="control.name | controlInjector: control">
