@@ -6,20 +6,31 @@ export const example: Control[] = [
     label: 'First name',
     name: 'first-name',
     controlType: 'input',
-    placeholder: 'First Name'
+    placeholder: 'First Name',
+    validators: {
+      required: true
+    }
   },
   {
     id: 2,
     label: 'Last name',
     name: 'last-name',
-    controlType: 'input'
+    controlType: 'input',
+    validators: {
+      required: true
+    }
   },
   {
     id: 3,
     label: 'Email',
     name: 'email',
     helpText: 'Must be a valid email',
-    controlType: 'input'
+    controlType: 'input',
+    validators: {
+      required: true,
+      email: true,
+      customValidation: control => (control.value && control.value.includes('gmail') ? null : { custom: 'The value must contain "gmail"' })
+    }
   },
   {
     id: 4,

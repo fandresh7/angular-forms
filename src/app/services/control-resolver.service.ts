@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core'
-import { Control } from '../interfaces/forms.interfaces'
 import { from, of, tap } from 'rxjs'
+import { Control } from '../interfaces/forms.interfaces'
 
 @Injectable({
   providedIn: 'root'

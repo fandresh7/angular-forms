@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core'
 import { BaseInputComponent } from '../base-input/base-input.component'
-import { FormControl } from '@angular/forms'
+import { FormControl, ReactiveFormsModule } from '@angular/forms'
+import { ValidatorMessageDirective } from '../../directives/validator-message.directive'
 
 @Component({
   selector: 'checkbox-group-field',
-  imports: [],
+  imports: [ReactiveFormsModule, ValidatorMessageDirective],
   templateUrl: './checkbox-group-field.component.html',
   styleUrl: './checkbox-group-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

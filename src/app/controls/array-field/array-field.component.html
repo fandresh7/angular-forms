@@ -1,29 +1,27 @@
-<div>
-  <fieldset [formGroup]="parentForm">
-    <legend>{{ control().label }}</legend>
+<fieldset [formGroup]="parentForm">
+  <legend>{{ control().label }}</legend>
 
-    <div [formArrayName]="control().name">
-      @for (group of formArray.controls; track group; let i = $index) {
-        <div [formGroupName]="i">
-          @for (ctrl of control().controls; track ctrl.id) {
-            <ng-container
-              [ngComponentOutlet]="controlResolver.resolve(ctrl) | async"
-              [ngComponentOutletInjector]="ctrl.name | controlInjector: ctrl">
-            </ng-container>
-          }
-          <button
-            type="button"
-            (click)="removeItem(i)">
-            Eliminar
-          </button>
-        </div>
-      }
-    </div>
+  <div [formArrayName]="control().name">
+    @for (group of formArray.controls; track group; let i = $index) {
+      <div [formGroupName]="i">
+        @for (ctrl of control().controls; track ctrl.id) {
+          <ng-container
+            [ngComponentOutlet]="controlResolver.resolve(ctrl) | async"
+            [ngComponentOutletInjector]="ctrl.name | controlInjector: ctrl">
+          </ng-container>
+        }
+        <button
+          type="button"
+          (click)="removeItem(i)">
+          Eliminar
+        </button>
+      </div>
+    }
+  </div>
 
-    <button
-      type="button"
-      (click)="addItem()">
-      Agregar ítem
-    </button>
-  </fieldset>
-</div>
+  <button
+    type="button"
+    (click)="addItem()">
+    Agregar ítem
+  </button>
+</fieldset>

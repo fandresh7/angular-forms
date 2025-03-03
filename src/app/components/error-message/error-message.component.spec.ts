@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { CheckboxFieldComponent } from './checkbox-field.component'
+import { ErrorMessageComponent } from './error-message.component'
 
-describe('CheckboxFieldComponent', () => {
-  let component: CheckboxFieldComponent
-  let fixture: ComponentFixture<CheckboxFieldComponent>
+describe('ErrorMessageComponent', () => {
+  let component: ErrorMessageComponent
+  let fixture: ComponentFixture<ErrorMessageComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CheckboxFieldComponent]
+      imports: [ErrorMessageComponent]
     }).compileComponents()
 
-    fixture = TestBed.createComponent(CheckboxFieldComponent)
+    fixture = TestBed.createComponent(ErrorMessageComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

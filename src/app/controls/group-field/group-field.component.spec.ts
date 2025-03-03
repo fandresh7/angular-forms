@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { GroupFieldComponent } from './group-field.component';
+import { GroupFieldComponent } from './group-field.component'
 
 describe('GroupFieldComponent', () => {
-  let component: GroupFieldComponent;
-  let fixture: ComponentFixture<GroupFieldComponent>;
+  let component: GroupFieldComponent
+  let fixture: ComponentFixture<GroupFieldComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [GroupFieldComponent]
-    })
-    .compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(GroupFieldComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(GroupFieldComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

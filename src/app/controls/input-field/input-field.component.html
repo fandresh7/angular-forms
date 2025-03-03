@@ -1,8 +1,11 @@
-<div>
-  <label [for]="key()">{{ control().label }}</label>
-  <input
-    [id]="key()"
-    [type]="control().type || 'text'"
-    [formControl]="formControl"
-    [placeholder]="control().placeholder ?? ''" />
-</div>
+<label [for]="key()">{{ control().label }}</label>
+<input
+  [id]="key()"
+  [type]="control().type || 'text'"
+  [formControl]="formControl"
+  [placeholder]="control().placeholder ?? ''" />
+
+<div
+  ngDefaultControl
+  validatorMessage
+  [formControl]="formControl"></div>

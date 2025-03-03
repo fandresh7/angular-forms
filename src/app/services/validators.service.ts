@@ -13,26 +13,6 @@ export class ValidatorsService {
     validatorsKeys.forEach(key => {
       const value = validators[key]
 
-      if (key === 'required') {
-        validatorFns.push(Validators.required)
-      }
-
-      if (key === 'email') {
-        validatorFns.push(Validators.email)
-      }
-
-      if (key === 'requiredTrue') {
-        validatorFns.push(Validators.requiredTrue)
-      }
-
-      if (key === 'minLength' && typeof value === 'number') {
-        validatorFns.push(Validators.minLength(value))
-      }
-
-      if (key === 'pattern' && typeof value === 'string') {
-        validatorFns.push(Validators.pattern(value))
-      }
-
       if (key === 'customValidation' && typeof value === 'function') {
         validatorFns.push(value as ValidatorFn)
       }
@@ -41,6 +21,38 @@ export class ValidatorsService {
         value.forEach(fn => {
           if (typeof fn === 'function') validatorFns.push(fn)
         })
+      }
+
+      if (key === 'pattern' && typeof value === 'string') {
+        validatorFns.push(Validators.pattern(value))
+      }
+
+      if (key === 'max' && typeof value === 'number') {
+        validatorFns.push(Validators.max(value))
+      }
+
+      if (key === 'min' && typeof value === 'number') {
+        validatorFns.push(Validators.min(value))
+      }
+
+      if (key === 'maxLength' && typeof value === 'number') {
+        validatorFns.push(Validators.maxLength(value))
+      }
+
+      if (key === 'minLength' && typeof value === 'number') {
+        validatorFns.push(Validators.minLength(value))
+      }
+
+      if (key === 'requiredTrue') {
+        validatorFns.push(Validators.requiredTrue)
+      }
+
+      if (key === 'email') {
+        validatorFns.push(Validators.email)
+      }
+
+      if (key === 'required') {
+        validatorFns.push(Validators.required)
       }
     })
 

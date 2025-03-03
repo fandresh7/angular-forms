@@ -1,8 +1,11 @@
-<div>
-  <label>
-    <input
-      type="checkbox"
-      [formControl]="formControl" />
-    {{ control().label }}
-  </label>
-</div>
+<label>
+  <input
+    type="checkbox"
+    [formControl]="formControl" />
+  {{ control().label }}
+</label>
+
+<div
+  ngDefaultControl
+  validatorMessage
+  [formControl]="formControl"></div>

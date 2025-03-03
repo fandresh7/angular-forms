@@ -1,7 +1,12 @@
-import { computed, Directive, inject, OnInit } from '@angular/core'
+import { computed, Directive, inject, OnInit, StaticProvider } from '@angular/core'
 import { CONTROL_DATA } from '../../utils/control-data.token'
 import { AbstractControl, ControlContainer, FormGroup } from '@angular/forms'
 import { ValidatorsService } from '../../services/validators.service'
+
+export const controlProvider: StaticProvider = {
+  provide: ControlContainer,
+  useFactory: () => inject(ControlContainer, { skipSelf: true })
+}
 
 @Directive()
 export abstract class BaseInputComponent implements OnInit {
