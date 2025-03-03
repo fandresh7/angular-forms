@@ -1,0 +1,12 @@
+<div>
+  <label for="">{{ control().label }}</label>
+  @for (option of options(); track option.value) {
+    <label>
+      <input
+        type="radio"
+        [formControl]="formControl"
+        [value]="option.value" />
+      {{ option.label }}
+    </label>
+  }
+</div>

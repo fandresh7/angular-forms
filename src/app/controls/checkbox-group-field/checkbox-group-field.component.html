@@ -1,0 +1,11 @@
+<div>
+  @for (option of options(); track option.value) {
+    <label>
+      <input
+        type="checkbox"
+        [checked]="isSelected(option.value)"
+        (change)="onCheckboxChange($event, option.value)" />
+      {{ option.label }}
+    </label>
+  }
+</div>

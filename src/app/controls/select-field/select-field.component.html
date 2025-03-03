@@ -1,0 +1,12 @@
+<div class="select-field">
+  <label [attr.for]="key()">{{ control().label }}</label>
+  <select
+    [id]="key()"
+    [formControl]="formControl">
+    @for (option of options(); track option.value) {
+      <option [value]="option.value">
+        {{ option.label }}
+      </option>
+    }
+  </select>
+</div>

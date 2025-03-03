@@ -1,13 +1,8 @@
-<form
-  [formGroup]="form"
-  (submit)="submit()"
-  autocomplete="off">
+<div [formGroup]="formGroup">
   @for (control of controls(); track control.id) {
     <ng-container
       [ngComponentOutlet]="controlResolver.resolve(control) | async"
       [ngComponentOutletInjector]="control.name | controlInjector: control">
     </ng-container>
   }
-
-  <button type="submit">Enviar</button>
-</form>
+</div>
