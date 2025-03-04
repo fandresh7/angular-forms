@@ -1,5 +1,5 @@
 import { ComponentRef, Directive, ElementRef, inject, OnDestroy, OnInit, ViewContainerRef } from '@angular/core'
-import { ControlContainer, FormGroupDirective, NgControl, NgForm } from '@angular/forms'
+import { ControlContainer, FormGroupDirective, NgControl } from '@angular/forms'
 import { EMPTY, fromEvent, iif, merge, startWith, Subscription } from 'rxjs'
 
 import { ErrorMessageComponent } from '../components/error-message/error-message.component'
@@ -15,28 +15,27 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
 
   private componentRef: ComponentRef<ErrorMessageComponent> | null = null
 
-  get form() {
-    return this.parentContainer?.formDirective as NgForm | FormGroupDirective | null
-  }
+  form = inject(FormGroupDirective)
 
   controlSubscription!: Subscription
 
   ngOnInit() {
-    if (!this.ngControl.control) return
+    const control = this.ngControl.control
+    if (!control) return
 
     this.controlSubscription = merge(
-      this.ngControl.control.statusChanges,
+      control.statusChanges,
       fromEvent(this.elementRef.nativeElement, 'blur'),
       iif(() => !!this.form, this.form!.ngSubmit, EMPTY)
     )
-      .pipe(startWith(this.ngControl.control.status))
+      .pipe(startWith(control.status))
       .subscribe(() => {
-        if (this.ngControl.errors && this.form?.submitted) {
+        if (control.errors && this.form?.submitted) {
           if (!this.componentRef) {
             this.componentRef = this.vcr.createComponent(ErrorMessageComponent)
           }
 
-          this.componentRef.setInput('errors', this.ngControl.errors)
+          this.componentRef.setInput('errors', control.errors)
         } else {
           this.componentRef?.destroy()
           this.componentRef = null

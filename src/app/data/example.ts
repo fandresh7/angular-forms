@@ -6,31 +6,29 @@ export const example: Control[] = [
     label: 'First name',
     name: 'first-name',
     controlType: 'input',
-    placeholder: 'First Name',
-    validators: {
-      required: true
-    }
+    placeholder: 'First Name'
+    // validators: {
+    //   required: true
+    // }
   },
   {
     id: 2,
     label: 'Last name',
     name: 'last-name',
-    controlType: 'input',
-    validators: {
-      required: true
-    }
+    controlType: 'input'
+    // validators: {
+    //   required: true
+    // }
   },
   {
     id: 3,
     label: 'Email',
     name: 'email',
-    helpText: 'Must be a valid email',
-    controlType: 'input',
-    validators: {
-      required: true,
-      email: true,
-      customValidation: control => (control.value && control.value.includes('gmail') ? null : { custom: 'The value must contain "gmail"' })
-    }
+    controlType: 'input'
+    // validators: {
+    //   required: true,
+    //   customValidation: control => (control.value && control.value.includes('gmail') ? null : { custom: 'The value must contain "gmail"' })
+    // }
   },
   {
     id: 4,
@@ -41,7 +39,10 @@ export const example: Control[] = [
         id: 1,
         label: 'Address Line 1',
         name: 'address-line-1',
-        controlType: 'input'
+        controlType: 'input',
+        validators: {
+          required: true
+        }
       },
       {
         id: 2,
@@ -111,13 +112,19 @@ export const example: Control[] = [
         label: 'Name',
         name: 'name',
         controlType: 'input',
-        type: 'text'
+        type: 'text',
+        validators: {
+          required: true
+        }
       },
       {
         id: 2,
         label: 'Is Completed?',
         name: 'is-completed',
-        controlType: 'checkbox'
+        controlType: 'checkbox',
+        validators: {
+          requiredTrue: true
+        }
       }
     ]
   },

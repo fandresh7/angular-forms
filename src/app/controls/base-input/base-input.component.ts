@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnInit, StaticProvider } from '@angular/core'
+import { computed, Directive, HostBinding, inject, OnInit, StaticProvider } from '@angular/core'
 import { AbstractControl, ControlContainer, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { AsyncPipe, NgComponentOutlet } from '@angular/common'
 import { from, isObservable, of, shareReplay, startWith, switchMap } from 'rxjs'
@@ -19,6 +19,8 @@ export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMes
 
 @Directive()
 export abstract class BaseInputComponent implements OnInit {
+  @HostBinding('class') hostClass = ''
+
   controlData = inject(CONTROL_DATA)
   validatorsService = inject(ValidatorsService)
   controlContainer = inject(ControlContainer)
@@ -51,6 +53,9 @@ export abstract class BaseInputComponent implements OnInit {
   )
 
   ngOnInit(): void {
+    const className = `field wrapper-${this.key()}`
+    this.hostClass = className
+
     this.checkVisible()
 
     this.parentForm.valueChanges.subscribe(() => this.checkVisible())
