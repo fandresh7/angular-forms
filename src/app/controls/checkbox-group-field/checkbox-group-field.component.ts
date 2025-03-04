@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { FormControl } from '@angular/forms'
-import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
+import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 
 @Component({
   selector: 'checkbox-group-field',
   imports: [...controlDeps],
   templateUrl: './checkbox-group-field.component.html',
   styleUrl: './checkbox-group-field.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [controlProvider]
 })
 export class CheckboxGroupFieldComponent extends BaseInputComponent {
   formControl = new FormControl(Array.isArray(this.control().value) ? this.control().value : [], this.validatorFn)

@@ -112,19 +112,19 @@ export const example: Control[] = [
         label: 'Name',
         name: 'name',
         controlType: 'input',
-        type: 'text',
-        validators: {
-          required: true
-        }
+        type: 'text'
+        // validators: {
+        //   required: true
+        // }
       },
       {
         id: 2,
         label: 'Is Completed?',
         name: 'is-completed',
-        controlType: 'checkbox',
-        validators: {
-          requiredTrue: true
-        }
+        controlType: 'checkbox'
+        // validators: {
+        //   requiredTrue: true
+        // }
       }
     ]
   },

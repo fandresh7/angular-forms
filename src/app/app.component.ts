@@ -17,12 +17,14 @@ import { VisibleControlsPipe } from './pipes/visible-controls.pipe'
 })
 export class AppComponent {
   controlResolver = inject(ControlResolver)
+
   fb = inject(NonNullableFormBuilder)
 
   controls = signal<Control[]>(example)
   form = this.fb.group({})
 
   submit() {
+    this.form.markAllAsTouched()
     console.log({ value: this.form.value, valid: this.form.valid })
   }
 }

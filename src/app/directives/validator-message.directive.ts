@@ -1,5 +1,5 @@
 import { ComponentRef, Directive, ElementRef, inject, OnDestroy, OnInit, ViewContainerRef } from '@angular/core'
-import { ControlContainer, FormGroupDirective, NgControl } from '@angular/forms'
+import { ControlContainer, FormGroupDirective, NgControl, NgForm } from '@angular/forms'
 import { EMPTY, fromEvent, iif, merge, startWith, Subscription } from 'rxjs'
 
 import { ErrorMessageComponent } from '../components/error-message/error-message.component'
@@ -15,7 +15,9 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
 
   private componentRef: ComponentRef<ErrorMessageComponent> | null = null
 
-  form = inject(FormGroupDirective)
+  get form() {
+    return this.parentContainer?.formDirective as NgForm | FormGroupDirective | null
+  }
 
   controlSubscription!: Subscription
 
@@ -30,7 +32,7 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
     )
       .pipe(startWith(control.status))
       .subscribe(() => {
-        if (control.errors && this.form?.submitted) {
+        if (control.errors && (control.touched || control.dirty)) {
           if (!this.componentRef) {
             this.componentRef = this.vcr.createComponent(ErrorMessageComponent)
           }

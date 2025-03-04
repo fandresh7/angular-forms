@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core'
-import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
+import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms'
 import { ControlResolver } from '../../services/control-resolver.service'
 
@@ -8,7 +8,8 @@ import { ControlResolver } from '../../services/control-resolver.service'
   imports: [...controlDeps],
   templateUrl: './array-field.component.html',
   styleUrl: './array-field.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [controlProvider]
 })
 export class ArrayFieldComponent extends BaseInputComponent {
   controlResolver = inject(ControlResolver)

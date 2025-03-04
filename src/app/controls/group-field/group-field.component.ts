@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core'
 import { NonNullableFormBuilder } from '@angular/forms'
-import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
+import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 import { ControlResolver } from '../../services/control-resolver.service'
 
 @Component({
@@ -8,7 +8,8 @@ import { ControlResolver } from '../../services/control-resolver.service'
   imports: [...controlDeps],
   templateUrl: './group-field.component.html',
   styleUrl: './group-field.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [controlProvider]
 })
 export class GroupFieldComponent extends BaseInputComponent {
   fb = inject(NonNullableFormBuilder)
