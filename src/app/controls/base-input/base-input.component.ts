@@ -1,7 +1,7 @@
-import { computed, Directive, HostBinding, inject, OnInit, StaticProvider } from '@angular/core'
+import { computed, Directive, HostBinding, inject, OnDestroy, OnInit, StaticProvider } from '@angular/core'
 import { AbstractControl, ControlContainer, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { AsyncPipe, NgComponentOutlet } from '@angular/common'
-import { from, isObservable, of, shareReplay, startWith, switchMap } from 'rxjs'
+import { from, isObservable, of, shareReplay, startWith, Subscription, switchMap } from 'rxjs'
 
 import { CONTROL_DATA } from '../../utils/control-data.token'
 import { ValidatorsService } from '../../services/validators.service'
@@ -18,7 +18,7 @@ export const controlProvider: StaticProvider = {
 export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMessageDirective, NgComponentOutlet, AsyncPipe, ControlInjector, VisibleControlsPipe]
 
 @Directive()
-export class BaseInputComponent implements OnInit {
+export class BaseInputComponent implements OnInit, OnDestroy {
   @HostBinding('class') hostClass = ''
 
   controlData = inject(CONTROL_DATA)
@@ -33,6 +33,8 @@ export class BaseInputComponent implements OnInit {
 
   formControl: AbstractControl = new FormControl(this.value(), this.validatorFn)
   parentForm = this.controlContainer.control as FormGroup
+
+  subscription!: Subscription
 
   options$ = this.parentForm.valueChanges.pipe(
     startWith(this.parentForm.value),
@@ -57,17 +59,26 @@ export class BaseInputComponent implements OnInit {
     this.initialize()
   }
 
+  ngOnDestroy(): void {
+    if (this.parentForm.contains(this.key())) {
+      this.parentForm.removeControl(this.key())
+    }
+
+    this.subscription.unsubscribe()
+  }
+
   initialize() {
     this.hostClass = `field wrapper-${this.key()}`
     this.parentForm.addControl(this.key(), this.formControl)
 
     this.checkVisible()
-    this.parentForm.valueChanges.subscribe(() => this.checkVisible())
+    this.subscription = this.parentForm.valueChanges.subscribe(() => this.checkVisible())
   }
 
   checkVisible() {
     const control = this.control()
     const key = this.key()
+    console.log('here', key)
 
     if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
       if (!this.parentForm.contains(key)) {
