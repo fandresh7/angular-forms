@@ -27,7 +27,7 @@ export class BaseInputComponent implements OnInit {
 
   key = computed(() => this.controlData().key)
   control = computed(() => this.controlData().control)
-  value = computed(() => this.controlData().value || this.control().value)
+  value = computed(() => this.controlData().value ?? this.control().value)
 
   validatorFn = this.validatorsService.resolveValidators(this.control())
 
@@ -55,14 +55,14 @@ export class BaseInputComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialize()
-
-    this.checkVisible()
-    this.parentForm.valueChanges.subscribe(() => this.checkVisible())
   }
 
   initialize() {
     this.hostClass = `field wrapper-${this.key()}`
     this.parentForm.addControl(this.key(), this.formControl)
+
+    this.checkVisible()
+    this.parentForm.valueChanges.subscribe(() => this.checkVisible())
   }
 
   checkVisible() {
@@ -71,7 +71,7 @@ export class BaseInputComponent implements OnInit {
 
     if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
       if (!this.parentForm.contains(key)) {
-        this.parentForm.addControl(key, this.control)
+        this.parentForm.addControl(key, this.formControl)
       }
     }
 
