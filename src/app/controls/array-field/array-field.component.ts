@@ -22,7 +22,10 @@ export class ArrayFieldComponent extends BaseInputComponent implements OnInit {
     this.initialize()
 
     if (Array.isArray(this.value())) {
-      this.value().forEach(() => this.addItem())
+      this.value().forEach(() => {
+        const group = this.fb.group({})
+        this.formControl.push(group)
+      })
     }
   }
 
@@ -31,10 +34,14 @@ export class ArrayFieldComponent extends BaseInputComponent implements OnInit {
   }
 
   removeItem(i: number) {
+    if (this.checkDisabled()) return
+
     this.formControl.removeAt(i)
   }
 
   addItem() {
+    if (this.checkDisabled()) return
+
     const group = this.fb.group({})
     this.formControl.push(group)
   }

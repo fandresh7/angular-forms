@@ -7,6 +7,7 @@ export const example: Control[] = [
     name: 'first-name',
     controlType: 'input',
     placeholder: 'First Name',
+    // disabled: true,
     validators: {
       required: true
     }

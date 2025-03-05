@@ -72,23 +72,53 @@ export class BaseInputComponent implements OnInit, OnDestroy {
     this.parentForm.addControl(this.key(), this.formControl)
 
     this.checkVisible()
-    this.subscription = this.parentForm.valueChanges.subscribe(() => this.checkVisible())
+    this.toggleDisabledState()
+
+    this.subscription = this.parentForm.valueChanges.subscribe(() => {
+      this.checkVisible()
+      this.toggleDisabledState()
+    })
+  }
+
+  toggleDisabledState() {
+    const isDisabled = this.checkDisabled()
+
+    if (isDisabled && !this.formControl.disabled) {
+      this.formControl.disable({ emitEvent: false })
+    } else if (!isDisabled && this.formControl.disabled) {
+      this.formControl.enable({ emitEvent: false })
+    }
+  }
+
+  checkDisabled() {
+    const control = this.control()
+
+    if (control.disabled === undefined) return false
+
+    if (typeof control.disabled === 'boolean') return control.disabled
+
+    if (typeof control.disabled === 'function') {
+      const result = control.disabled(this.parentForm)
+      return result
+    }
+
+    return false
   }
 
   checkVisible() {
     const control = this.control()
     const key = this.key()
-    console.log('here', key)
 
     if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
       if (!this.parentForm.contains(key)) {
-        this.parentForm.addControl(key, this.formControl)
+        console.log(this.formControl.value)
+        this.parentForm.addControl(key, this.formControl, { emitEvent: false })
       }
     }
 
     if (control.visible === false || (typeof control.visible === 'function' && !control.visible(this.parentForm))) {
       if (this.parentForm.contains(key)) {
-        this.parentForm.removeControl(key)
+        this.parentForm.removeControl(key, { emitEvent: false })
       }
     }
   }
