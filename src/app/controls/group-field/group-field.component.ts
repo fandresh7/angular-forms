@@ -15,10 +15,6 @@ export class GroupFieldComponent extends BaseInputComponent {
   fb = inject(NonNullableFormBuilder)
   controlResolver = inject(ControlResolver)
 
-  formGroup = this.fb.group({})
+  override formControl = this.fb.group({})
   controls = computed(() => this.control().controls || [])
-
-  createControl() {
-    return this.formGroup
-  }
 }

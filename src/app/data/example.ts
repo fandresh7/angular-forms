@@ -6,10 +6,10 @@ export const example: Control[] = [
     label: 'First name',
     name: 'first-name',
     controlType: 'input',
-    placeholder: 'First Name'
-    // validators: {
-    //   required: true
-    // }
+    placeholder: 'First Name',
+    validators: {
+      required: true
+    }
   },
   {
     id: 2,
@@ -112,10 +112,10 @@ export const example: Control[] = [
         label: 'Name',
         name: 'name',
         controlType: 'input',
-        type: 'text'
-        // validators: {
-        //   required: true
-        // }
+        type: 'text',
+        validators: {
+          required: true
+        }
       },
       {
         id: 2,

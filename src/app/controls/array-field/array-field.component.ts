@@ -14,20 +14,20 @@ import { ControlResolver } from '../../services/control-resolver.service'
 export class ArrayFieldComponent extends BaseInputComponent {
   controlResolver = inject(ControlResolver)
   fb = inject(NonNullableFormBuilder)
-  formArray = new FormArray<FormGroup>([], this.validatorFn)
 
+  override formControl = new FormArray<FormGroup>([], this.validatorFn)
   controls = computed(() => this.control().controls || [])
 
   createControl() {
-    return this.formArray
+    return this.formControl
   }
 
   removeItem(i: number) {
-    this.formArray.removeAt(i)
+    this.formControl.removeAt(i)
   }
 
   addItem() {
     const group = this.fb.group({})
-    this.formArray.push(group)
+    this.formControl.push(group)
   }
 }

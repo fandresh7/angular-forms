@@ -32,7 +32,7 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
     )
       .pipe(startWith(control.status))
       .subscribe(() => {
-        if (control.errors && (control.touched || control.dirty)) {
+        if (control.errors && (control.touched || this.form?.submitted)) {
           if (!this.componentRef) {
             this.componentRef = this.vcr.createComponent(ErrorMessageComponent)
           }

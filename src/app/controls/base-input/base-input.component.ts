@@ -1,5 +1,5 @@
 import { computed, Directive, HostBinding, inject, OnInit, StaticProvider } from '@angular/core'
-import { AbstractControl, ControlContainer, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { AbstractControl, ControlContainer, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { AsyncPipe, NgComponentOutlet } from '@angular/common'
 import { from, isObservable, of, shareReplay, startWith, switchMap } from 'rxjs'
 
@@ -18,7 +18,7 @@ export const controlProvider: StaticProvider = {
 export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMessageDirective, NgComponentOutlet, AsyncPipe, ControlInjector, VisibleControlsPipe]
 
 @Directive()
-export abstract class BaseInputComponent implements OnInit {
+export class BaseInputComponent implements OnInit {
   @HostBinding('class') hostClass = ''
 
   controlData = inject(CONTROL_DATA)
@@ -30,7 +30,7 @@ export abstract class BaseInputComponent implements OnInit {
 
   validatorFn = this.validatorsService.resolveValidators(this.control())
 
-  abstract createControl(): AbstractControl
+  formControl: AbstractControl = new FormControl(this.control().value, this.validatorFn)
   parentForm = this.controlContainer.control as FormGroup
 
   options$ = this.parentForm.valueChanges.pipe(
@@ -56,25 +56,26 @@ export abstract class BaseInputComponent implements OnInit {
     const className = `field wrapper-${this.key()}`
     this.hostClass = className
 
-    this.checkVisible()
+    this.parentForm.addControl(this.key(), this.formControl)
 
-    this.parentForm.valueChanges.subscribe(() => this.checkVisible())
+    // this.checkVisible()
+    // this.parentForm.valueChanges.subscribe(() => this.checkVisible())
   }
 
-  checkVisible() {
-    const control = this.control()
-    const key = this.key()
+  // checkVisible() {
+  //   const control = this.control()
+  //   const key = this.key()
 
-    if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
-      if (!this.parentForm.contains(key)) {
-        this.parentForm.addControl(key, this.createControl())
-      }
-    }
+  //   if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
+  //     if (!this.parentForm.contains(key)) {
+  //       this.parentForm.addControl(key, this.form)
+  //     }
+  //   }
 
-    if (control.visible === false || (typeof control.visible === 'function' && !control.visible(this.parentForm))) {
-      if (this.parentForm.contains(key)) {
-        this.parentForm.removeControl(key)
-      }
-    }
-  }
+  //   if (control.visible === false || (typeof control.visible === 'function' && !control.visible(this.parentForm))) {
+  //     if (this.parentForm.contains(key)) {
+  //       this.parentForm.removeControl(key)
+  //     }
+  //   }
+  // }
 }
