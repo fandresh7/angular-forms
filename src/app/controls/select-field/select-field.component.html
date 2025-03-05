@@ -1,7 +1,7 @@
 <label [attr.for]="key()">{{ control().label }}</label>
 <select
   [id]="key()"
-  [formControl]="formControl">
+  [formControlName]="control().name">
   @for (option of options$ | async; track option.value) {
     <option [value]="option.value">
       {{ option.label }}
@@ -14,4 +14,4 @@
   validatorMessage
   helpText
   [message]="control().helpText"
-  [formControl]="formControl"></div>
+  [formControlName]="control().name"></div>

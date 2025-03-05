@@ -2,7 +2,7 @@
 <input
   [id]="key()"
   [type]="control().type || 'text'"
-  [formControl]="formControl"
+  [formControlName]="control().name"
   [placeholder]="control().placeholder ?? ''" />
 
 <div
@@ -10,4 +10,4 @@
   validatorMessage
   helpText
   [message]="control().helpText"
-  [formControl]="formControl"></div>
+  [formControlName]="control().name"></div>

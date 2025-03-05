@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, Injector, Pipe, PipeTransform, signal } from '@angular/core'
 import { Control } from '../interfaces/forms.interfaces'
 import { CONTROL_DATA, ControlData } from '../utils/control-data.token'
@@ -8,8 +9,9 @@ import { CONTROL_DATA, ControlData } from '../utils/control-data.token'
 export class ControlInjector implements PipeTransform {
   injector = inject(Injector)
 
-  transform(name: string, control: Control): Injector {
-    const data: ControlData = { key: name, control }
+  transform(name: string, { control, initialValues }: { control: Control; initialValues?: any }): Injector {
+    const controlPatchValue = initialValues?.[control.name]
+    const data: ControlData = { key: name, control, value: controlPatchValue }
 
     return Injector.create({
       parent: this.injector,

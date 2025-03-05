@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core'
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core'
 import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms'
 import { ControlResolver } from '../../services/control-resolver.service'
@@ -11,15 +11,23 @@ import { ControlResolver } from '../../services/control-resolver.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })
-export class ArrayFieldComponent extends BaseInputComponent {
+export class ArrayFieldComponent extends BaseInputComponent implements OnInit {
   controlResolver = inject(ControlResolver)
   fb = inject(NonNullableFormBuilder)
 
   override formControl = new FormArray<FormGroup>([], this.validatorFn)
   controls = computed(() => this.control().controls || [])
 
-  createControl() {
-    return this.formControl
+  override ngOnInit(): void {
+    this.initialize()
+
+    if (Array.isArray(this.value())) {
+      this.value().forEach(() => this.addItem())
+    }
+  }
+
+  getControlValue(index: number) {
+    return this.value()[index]
   }
 
   removeItem(i: number) {

@@ -3,7 +3,7 @@
   <label>
     <input
       type="radio"
-      [formControl]="formControl"
+      [formControlName]="control().name"
       [value]="option.value" />
     {{ option.label }}
   </label>
@@ -14,4 +14,4 @@
   validatorMessage
   helpText
   [message]="control().helpText"
-  [formControl]="formControl"></div>
+  [formControlName]="control().name"></div>

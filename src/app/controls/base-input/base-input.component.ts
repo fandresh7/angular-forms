@@ -27,10 +27,11 @@ export class BaseInputComponent implements OnInit {
 
   key = computed(() => this.controlData().key)
   control = computed(() => this.controlData().control)
+  value = computed(() => this.controlData().value || this.control().value)
 
   validatorFn = this.validatorsService.resolveValidators(this.control())
 
-  formControl: AbstractControl = new FormControl(this.control().value, this.validatorFn)
+  formControl: AbstractControl = new FormControl(this.value(), this.validatorFn)
   parentForm = this.controlContainer.control as FormGroup
 
   options$ = this.parentForm.valueChanges.pipe(
@@ -53,29 +54,31 @@ export class BaseInputComponent implements OnInit {
   )
 
   ngOnInit(): void {
-    const className = `field wrapper-${this.key()}`
-    this.hostClass = className
+    this.initialize()
 
-    this.parentForm.addControl(this.key(), this.formControl)
-
-    // this.checkVisible()
-    // this.parentForm.valueChanges.subscribe(() => this.checkVisible())
+    this.checkVisible()
+    this.parentForm.valueChanges.subscribe(() => this.checkVisible())
   }
 
-  // checkVisible() {
-  //   const control = this.control()
-  //   const key = this.key()
+  initialize() {
+    this.hostClass = `field wrapper-${this.key()}`
+    this.parentForm.addControl(this.key(), this.formControl)
+  }
 
-  //   if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
-  //     if (!this.parentForm.contains(key)) {
-  //       this.parentForm.addControl(key, this.form)
-  //     }
-  //   }
+  checkVisible() {
+    const control = this.control()
+    const key = this.key()
 
-  //   if (control.visible === false || (typeof control.visible === 'function' && !control.visible(this.parentForm))) {
-  //     if (this.parentForm.contains(key)) {
-  //       this.parentForm.removeControl(key)
-  //     }
-  //   }
-  // }
+    if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
+      if (!this.parentForm.contains(key)) {
+        this.parentForm.addControl(key, this.control)
+      }
+    }
+
+    if (control.visible === false || (typeof control.visible === 'function' && !control.visible(this.parentForm))) {
+      if (this.parentForm.contains(key)) {
+        this.parentForm.removeControl(key)
+      }
+    }
+  }
 }

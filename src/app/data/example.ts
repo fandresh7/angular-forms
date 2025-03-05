@@ -15,7 +15,8 @@ export const example: Control[] = [
     id: 2,
     label: 'Last name',
     name: 'last-name',
-    controlType: 'input'
+    controlType: 'input',
+    visible: form => form.get('first-name')?.value === 'aaaaa'
     // validators: {
     //   required: true
     // }

@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
-import { FormControl } from '@angular/forms'
-import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
+import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 
 @Component({
   selector: 'select-field',
   imports: [...controlDeps],
   templateUrl: './select-field.component.html',
   styleUrl: './select-field.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [controlProvider]
 })
-export class SelectFieldComponent extends BaseInputComponent {
-  override formControl = new FormControl(this.control().value, this.validatorFn)
-}
+export class SelectFieldComponent extends BaseInputComponent {}

@@ -20,11 +20,34 @@ export class AppComponent {
 
   fb = inject(NonNullableFormBuilder)
 
+  data = {
+    address: {
+      'address-line-1': 'sadfsd',
+      'address-line-2': 'asdfsdf',
+      city: 'ny'
+    },
+    'first-name': 'sadas',
+    'last-name': 'asdAsd',
+    email: 'sadas@dsgdf.com',
+    subject: 'uk',
+    animals: ['oso', 'perro', 'caballo'],
+    tasks: [
+      {
+        name: 'sadf',
+        'is-completed': false
+      },
+      {
+        name: 'ggas',
+        'is-completed': true
+      }
+    ],
+    terms: true
+  }
+
   controls = signal<Control[]>(example)
   form = this.fb.group({})
 
   submit() {
-    this.form.markAllAsTouched()
     console.log({ value: this.form.value, valid: this.form.valid })
   }
 }
