@@ -4,13 +4,20 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { Control } from './interfaces/forms.interfaces'
 import { example } from './data/example'
 import { FieldsComponent } from './components/fields/fields.component'
+import { SPANISH_ERROR_MESSAGES, VALIDATION_ERROR_MESSAGES } from './utils/validation-error-messages.token'
 
 @Component({
   selector: 'app-root',
   imports: [ReactiveFormsModule, FieldsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: VALIDATION_ERROR_MESSAGES,
+      useValue: SPANISH_ERROR_MESSAGES
+    }
+  ]
 })
 export class AppComponent {
   fb = inject(NonNullableFormBuilder)
