@@ -5,7 +5,6 @@ import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/
   selector: 'select-field',
   imports: [...controlDeps],
   templateUrl: './select-field.component.html',
-  styleUrl: './select-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })

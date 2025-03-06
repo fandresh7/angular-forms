@@ -1,13 +1,15 @@
 <label for="">{{ control().label }}</label>
-@for (option of options$ | async; track option.value) {
-  <label>
-    <input
-      type="radio"
-      [formControlName]="control().name"
-      [value]="option.value" />
-    {{ option.label }}
-  </label>
-}
+<div>
+  @for (option of options$ | async; track option.value) {
+    <label>
+      <input
+        type="radio"
+        [formControlName]="control().name"
+        [value]="option.value" />
+      {{ option.label }}
+    </label>
+  }
+</div>
 
 <div
   ngDefaultControl

@@ -7,7 +7,6 @@ import { ControlResolver } from '../../services/control-resolver.service'
   selector: 'array-field',
   imports: [...controlDeps],
   templateUrl: './array-field.component.html',
-  styleUrl: './array-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })

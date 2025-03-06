@@ -7,8 +7,11 @@ import { VALIDATION_ERROR_MESSAGES } from '../../utils/validation-error-messages
 @Component({
   selector: 'error-message',
   imports: [KeyValuePipe],
-  templateUrl: './error-message.component.html',
-  styleUrl: './error-message.component.css',
+  template: `
+    @for (error of errors() | keyvalue; track error) {
+      <p style="margin: 0">{{ getError(error) }}</p>
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorMessageComponent {

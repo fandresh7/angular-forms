@@ -5,7 +5,6 @@ import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/
   selector: 'radio-field',
   imports: [...controlDeps],
   templateUrl: './radio-field.component.html',
-  styleUrl: './radio-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })

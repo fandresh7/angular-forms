@@ -6,7 +6,6 @@ import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/
   selector: 'checkbox-group-field',
   imports: [...controlDeps],
   templateUrl: './checkbox-group-field.component.html',
-  styleUrl: './checkbox-group-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })

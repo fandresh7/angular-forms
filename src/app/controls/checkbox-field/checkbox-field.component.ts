@@ -5,7 +5,6 @@ import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/
   selector: 'checkbox-field',
   imports: [...controlDeps],
   templateUrl: './checkbox-field.component.html',
-  styleUrl: './checkbox-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })

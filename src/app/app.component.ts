@@ -1,23 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core'
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { AsyncPipe, NgComponentOutlet } from '@angular/common'
 
 import { Control } from './interfaces/forms.interfaces'
 import { example } from './data/example'
-import { ControlResolver } from './services/control-resolver.service'
-import { ControlInjector } from './pipes/control-injector.pipe'
-import { VisibleControlsPipe } from './pipes/visible-controls.pipe'
+import { FieldsComponent } from './components/fields/fields.component'
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, AsyncPipe, NgComponentOutlet, ControlInjector, VisibleControlsPipe],
+  imports: [ReactiveFormsModule, FieldsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  controlResolver = inject(ControlResolver)
-
   fb = inject(NonNullableFormBuilder)
 
   data = {

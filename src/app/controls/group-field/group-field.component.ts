@@ -7,7 +7,6 @@ import { ControlResolver } from '../../services/control-resolver.service'
   selector: 'group-field',
   imports: [...controlDeps],
   templateUrl: './group-field.component.html',
-  styleUrl: './group-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })

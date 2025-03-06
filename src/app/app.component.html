@@ -2,12 +2,10 @@
   [formGroup]="form"
   (submit)="submit()"
   autocomplete="off">
-  @for (control of controls() | visibleControls: form; track control.id) {
-    <ng-container
-      [ngComponentOutlet]="controlResolver.resolve(control) | async"
-      [ngComponentOutletInjector]="control.name | controlInjector: { control, initialValues: data }">
-    </ng-container>
-  }
+  <fields
+    [controls]="controls()"
+    [data]="data">
+  </fields>
 
   <button type="submit">Enviar</button>
 </form>

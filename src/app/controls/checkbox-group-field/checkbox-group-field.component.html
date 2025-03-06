@@ -1,5 +1,5 @@
+<label for="">{{ control().label }}</label>
 <div>
-  <label for="">{{ control().label }}</label>
   @for (option of options$ | async; track option.value) {
     <label>
       <input

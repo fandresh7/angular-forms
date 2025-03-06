@@ -5,7 +5,6 @@ import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/
   selector: 'input-field',
   imports: [...controlDeps],
   templateUrl: './input-field.component.html',
-  styleUrl: './input-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })
