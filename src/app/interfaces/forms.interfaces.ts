@@ -14,7 +14,6 @@ type Options = Option[] | ((form: FormGroup) => Option[] | Promise<Option[]> | O
 type Disabled = boolean | ((form: FormGroup) => boolean)
 
 export interface Control {
-  id: number
   label?: string
   name: string
   controlType: ControlType

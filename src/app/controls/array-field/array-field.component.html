@@ -4,7 +4,7 @@
   <div [formArrayName]="control().name">
     @for (group of formControl.controls; track group; let i = $index) {
       <div [formGroupName]="i">
-        @for (ctrl of control().controls; track ctrl.id) {
+        @for (ctrl of control().controls; track ctrl.name) {
           <ng-container
             [ngComponentOutlet]="controlResolver.resolve(ctrl) | async"
             [ngComponentOutletInjector]="ctrl.name | controlInjector: { control: ctrl, initialValues: getControlValue(i) }">

@@ -2,29 +2,20 @@ import { Control } from '../interfaces/forms.interfaces'
 
 export const example: Control[] = [
   {
-    id: 1,
     label: 'First name',
     name: 'first-name',
     controlType: 'input',
     placeholder: 'First Name',
-    // disabled: true,
     validators: {
       required: true
     }
   },
   {
-    id: 2,
     label: 'Last name',
     name: 'last-name',
-    controlType: 'input',
-    disabled: form => form.get('first-name')?.value === 'hola'
-    // visible: form => form.get('first-name')?.value === 'aaaaa'
-    // validators: {
-    //   required: true
-    // }
+    controlType: 'input'
   },
   {
-    id: 3,
     label: 'Email',
     name: 'email',
     controlType: 'input',
@@ -35,12 +26,10 @@ export const example: Control[] = [
     }
   },
   {
-    id: 4,
     name: 'address',
     controlType: 'group',
     controls: [
       {
-        id: 1,
         label: 'Address Line 1',
         name: 'address-line-1',
         controlType: 'input',
@@ -49,13 +38,12 @@ export const example: Control[] = [
         }
       },
       {
-        id: 2,
         label: 'Address Line 2',
         name: 'address-line-2',
+        disabled: true,
         controlType: 'input'
       },
       {
-        id: 3,
         label: 'City',
         name: 'city',
         controlType: 'select',
@@ -81,7 +69,6 @@ export const example: Control[] = [
     ]
   },
   {
-    id: 5,
     label: 'Subject',
     name: 'subject',
     controlType: 'select',
@@ -93,7 +80,6 @@ export const example: Control[] = [
     ]
   },
   {
-    id: 6,
     label: 'Animals',
     name: 'animals',
     controlType: 'checkbox-group',
@@ -106,13 +92,11 @@ export const example: Control[] = [
     ]
   },
   {
-    id: 7,
     label: 'Tasks',
     name: 'tasks',
     controlType: 'array',
     controls: [
       {
-        id: 1,
         label: 'Name',
         name: 'name',
         controlType: 'input',
@@ -122,21 +106,19 @@ export const example: Control[] = [
         }
       },
       {
-        id: 2,
         label: 'Is Completed?',
         name: 'is-completed',
         controlType: 'checkbox'
-        // validators: {
-        //   requiredTrue: true
-        // }
       }
     ]
   },
   {
-    id: 8,
     label: 'Terms',
     name: 'terms',
     controlType: 'checkbox',
-    value: false
+    value: false,
+    validators: {
+      requiredTrue: true
+    }
   }
 ]

@@ -11,7 +11,7 @@ import { Control } from '../../interfaces/forms.interfaces'
   selector: 'fields',
   imports: [ReactiveFormsModule, NgComponentOutlet, ControlInjector, AsyncPipe, VisibleControlsPipe],
   template: `
-    @for (control of controls() | visibleControls: form; track control.id) {
+    @for (control of controls() | visibleControls: form; track control.name) {
       <ng-container
         [ngComponentOutlet]="controlResolver.resolve(control) | async"
         [ngComponentOutletInjector]="control.name | controlInjector: { control, initialValues: data() }">
