@@ -17,7 +17,8 @@ export const example: Control[] = [
     label: 'Last name',
     name: 'last-name',
     controlType: 'input',
-    visible: form => form.get('first-name')?.value === 'aaaaa'
+    disabled: form => form.get('first-name')?.value === 'hola'
+    // visible: form => form.get('first-name')?.value === 'aaaaa'
     // validators: {
     //   required: true
     // }
@@ -26,11 +27,12 @@ export const example: Control[] = [
     id: 3,
     label: 'Email',
     name: 'email',
-    controlType: 'input'
-    // validators: {
-    //   required: true,
-    //   customValidation: control => (control.value && control.value.includes('gmail') ? null : { custom: 'The value must contain "gmail"' })
-    // }
+    controlType: 'input',
+    validators: {
+      required: true,
+      email: true,
+      customValidation: control => (control.value && control.value.includes('gmail') ? null : { custom: 'The value must contain "gmail"' })
+    }
   },
   {
     id: 4,

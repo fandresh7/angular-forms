@@ -111,7 +111,6 @@ export class BaseInputComponent implements OnInit, OnDestroy {
 
     if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
       if (!this.parentForm.contains(key)) {
-        console.log(this.formControl.value)
         this.parentForm.addControl(key, this.formControl, { emitEvent: false })
       }
     }

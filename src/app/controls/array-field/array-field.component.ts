@@ -29,12 +29,11 @@ export class ArrayFieldComponent extends BaseInputComponent implements OnInit {
   }
 
   getControlValue(index: number) {
-    return this.value()[index]
+    return this.value()?.[index] ?? null
   }
 
   removeItem(i: number) {
     if (this.checkDisabled()) return
-
     this.formControl.removeAt(i)
   }
 
