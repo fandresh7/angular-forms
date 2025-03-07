@@ -5,6 +5,7 @@
       <input
         type="checkbox"
         [checked]="isSelected(option.value)"
+        [disabled]="option.disabled"
         (change)="onCheckboxChange($event, option.value)" />
       {{ option.label }}
     </label>

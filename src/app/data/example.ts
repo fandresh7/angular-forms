@@ -85,7 +85,7 @@ export const example: Control[] = [
     controlType: 'checkbox-group',
     value: ['oso', 'caballo'],
     options: [
-      { label: 'Oso', value: 'oso' },
+      { label: 'Oso', value: 'oso', disabled: true },
       { label: 'Perro', value: 'perro' },
       { label: 'Gato', value: 'gato' },
       { label: 'Caballo', value: 'caballo' }

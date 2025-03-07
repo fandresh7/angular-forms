@@ -3,7 +3,10 @@
   [id]="key()"
   [formControlName]="control().name">
   @for (option of options$ | async; track option.value) {
-    <option [value]="option.value">
+    <option
+      [value]="option.value"
+      [selected]="option.selected"
+      [disabled]="option.disabled">
       {{ option.label }}
     </option>
   }
