@@ -14,7 +14,7 @@ import { Control } from '../../interfaces/forms.interfaces'
     @for (control of controls() | visibleControls: form; track control.name) {
       <ng-container
         [ngComponentOutlet]="controlResolver.resolve(control) | async"
-        [ngComponentOutletInjector]="control.name | controlInjector: { control, initialValues: data() }">
+        [ngComponentOutletInjector]="control | controlInjector: data()">
       </ng-container>
     }
   `,

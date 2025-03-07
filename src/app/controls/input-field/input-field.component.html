@@ -1,6 +1,6 @@
-<label [for]="key()">{{ control().label }}</label>
+<label [for]="control().name">{{ control().label }}</label>
 <input
-  [id]="key()"
+  [id]="control().name"
   [type]="control().type || 'text'"
   [formControlName]="control().name"
   [placeholder]="control().placeholder ?? ''" />

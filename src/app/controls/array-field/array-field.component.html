@@ -7,7 +7,7 @@
         @for (ctrl of control().controls; track ctrl.name) {
           <ng-container
             [ngComponentOutlet]="controlResolver.resolve(ctrl) | async"
-            [ngComponentOutletInjector]="ctrl.name | controlInjector: { control: ctrl, initialValues: getControlValue(i) }">
+            [ngComponentOutletInjector]="ctrl | controlInjector: getControlValue(i)">
           </ng-container>
         }
         <button

@@ -2,7 +2,7 @@
   @for (control of controls() | visibleControls: parentForm; track control.name) {
     <ng-container
       [ngComponentOutlet]="controlResolver.resolve(control) | async"
-      [ngComponentOutletInjector]="control.name | controlInjector: { control, initialValues: value() }">
+      [ngComponentOutletInjector]="control | controlInjector: value()">
     </ng-container>
   }
 </div>

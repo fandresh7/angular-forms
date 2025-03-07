@@ -25,9 +25,8 @@ export class BaseInputComponent implements OnInit, OnDestroy {
   validatorsService = inject(ValidatorsService)
   controlContainer = inject(ControlContainer)
 
-  key = computed(() => this.controlData().key)
   control = computed(() => this.controlData().control)
-  value = computed(() => this.controlData().value ?? this.control().value)
+  value = computed(() => this.controlData().initialValue ?? this.control().value)
 
   validatorFn = this.validatorsService.resolveValidators(this.control())
 
@@ -60,16 +59,19 @@ export class BaseInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.parentForm.contains(this.key())) {
-      this.parentForm.removeControl(this.key())
+    const control = this.control()
+
+    if (this.parentForm.contains(control.name)) {
+      this.parentForm.removeControl(control.name)
     }
 
     this.subscription.unsubscribe()
   }
 
   initialize() {
-    this.hostClass = `field wrapper-${this.key()}`
-    this.parentForm.addControl(this.key(), this.formControl)
+    const control = this.control()
+    this.hostClass = `field wrapper-${control.name}`
+    this.parentForm.addControl(control.name, this.formControl)
 
     this.checkVisible()
     this.toggleDisabledState()
@@ -107,7 +109,7 @@ export class BaseInputComponent implements OnInit, OnDestroy {
 
   checkVisible() {
     const control = this.control()
-    const key = this.key()
+    const key = this.control().name
 
     if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
       if (!this.parentForm.contains(key)) {
