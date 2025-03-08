@@ -12,12 +12,11 @@ import { ActivateControlDirective } from '../../directives/activate-control.dire
   imports: [ReactiveFormsModule, NgComponentOutlet, ControlInjector, AsyncPipe, ActivateControlDirective],
   template: `
     @for (control of controls(); track control.name) {
-      <div *activateControl="control">
-        <ng-container
-          [ngComponentOutlet]="controlResolver.resolve(control) | async"
-          [ngComponentOutletInjector]="control | controlInjector: data()">
-        </ng-container>
-      </div>
+      <ng-container
+        *activateControl="control"
+        [ngComponentOutlet]="controlResolver.resolve(control) | async"
+        [ngComponentOutletInjector]="control | controlInjector: data()">
+      </ng-container>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
