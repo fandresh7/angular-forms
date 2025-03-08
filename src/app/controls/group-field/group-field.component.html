@@ -1,6 +1,7 @@
 <div [formGroupName]="control().name">
-  @for (control of controls() | visibleControls: parentForm; track control.name) {
+  @for (control of controls(); track control.name) {
     <ng-container
+      *activateControl="control"
       [ngComponentOutlet]="controlResolver.resolve(control) | async"
       [ngComponentOutletInjector]="control | controlInjector: value()">
     </ng-container>

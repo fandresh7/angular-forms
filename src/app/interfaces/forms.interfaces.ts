@@ -9,9 +9,9 @@ type ValidatorValue = boolean | number | string | RegExp
 
 export type ControlValidators = Partial<Record<ValidatorsKeys, ValidatorValue>> & { customValidation?: CustomValidator | CustomValidator[] }
 
-type Visible = boolean | ((form: FormGroup) => boolean)
-type Options = Option[] | ((form: FormGroup) => Option[] | Promise<Option[]> | Observable<Option[]>)
-type Disabled = boolean | ((form: FormGroup) => boolean)
+export type Visible = boolean | ((form: FormGroup) => boolean)
+export type Options = Option[] | ((form: FormGroup) => Option[] | Promise<Option[]> | Observable<Option[]>)
+export type Disabled = boolean | ((form: FormGroup) => boolean)
 
 export interface Control {
   label?: string

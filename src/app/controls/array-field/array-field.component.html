@@ -6,6 +6,7 @@
       <div [formGroupName]="i">
         @for (ctrl of control().controls; track ctrl.name) {
           <ng-container
+            *activateControl="ctrl"
             [ngComponentOutlet]="controlResolver.resolve(ctrl) | async"
             [ngComponentOutletInjector]="ctrl | controlInjector: getControlValue(i)">
           </ng-container>

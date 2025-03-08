@@ -8,14 +8,14 @@ import { ValidatorsService } from '../../services/validators.service'
 import { ValidatorMessageDirective } from '../../directives/validator-message.directive'
 import { ControlInjector } from '../../pipes/control-injector.pipe'
 import { HelpTextDirective } from '../../directives/help-text.directive'
-import { VisibleControlsPipe } from '../../pipes/visible-controls.pipe'
+import { ActivateControlDirective } from '../../directives/activate-control.directive'
 
 export const controlProvider: StaticProvider = {
   provide: ControlContainer,
   useFactory: () => inject(ControlContainer, { skipSelf: true })
 }
 
-export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMessageDirective, NgComponentOutlet, AsyncPipe, ControlInjector, VisibleControlsPipe]
+export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMessageDirective, NgComponentOutlet, AsyncPipe, ControlInjector, ActivateControlDirective]
 
 @Directive()
 export class BaseInputComponent implements OnInit, OnDestroy {
@@ -73,11 +73,9 @@ export class BaseInputComponent implements OnInit, OnDestroy {
     this.hostClass = `field wrapper-${control.name}`
     this.parentForm.addControl(control.name, this.formControl)
 
-    this.checkVisible()
     this.toggleDisabledState()
 
     this.subscription = this.parentForm.valueChanges.subscribe(() => {
-      this.checkVisible()
       this.toggleDisabledState()
     })
   }
@@ -105,22 +103,5 @@ export class BaseInputComponent implements OnInit, OnDestroy {
     }
 
     return false
-  }
-
-  checkVisible() {
-    const control = this.control()
-    const key = this.control().name
-
-    if (control.visible === undefined || control.visible === true || (typeof control.visible === 'function' && control.visible(this.parentForm))) {
-      if (!this.parentForm.contains(key)) {
-        this.parentForm.addControl(key, this.formControl, { emitEvent: false })
-      }
-    }
-
-    if (control.visible === false || (typeof control.visible === 'function' && !control.visible(this.parentForm))) {
-      if (this.parentForm.contains(key)) {
-        this.parentForm.removeControl(key, { emitEvent: false })
-      }
-    }
   }
 }

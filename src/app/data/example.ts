@@ -40,7 +40,7 @@ export const example: Control[] = [
       {
         label: 'Address Line 2',
         name: 'address-line-2',
-        disabled: true,
+        visible: form => form.get('address.address-line-1')?.value === 'street',
         controlType: 'input'
       },
       {
