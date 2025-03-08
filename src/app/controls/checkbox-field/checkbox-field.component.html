@@ -5,8 +5,11 @@
   {{ control().label }}
 </label>
 
-<ng-container
-  ngDefaultControl
-  validatorMessage
-  [helpMessage]="control().helpText"
-  [formControlName]="control().name"></ng-container>
+<div class="validation-feedback">
+  <ng-container
+    ngDefaultControl
+    validatorMessage
+    [helpMessage]="control().helpText"
+    [formControlName]="control().name">
+  </ng-container>
+</div>
