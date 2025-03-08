@@ -12,9 +12,8 @@
   }
 </select>
 
-<div
+<ng-container
   ngDefaultControl
   validatorMessage
-  helpText
-  [message]="control().helpText"
-  [formControlName]="control().name"></div>
+  [helpMessage]="control().helpText"
+  [formControlName]="control().name"></ng-container>

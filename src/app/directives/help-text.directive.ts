@@ -2,10 +2,10 @@ import { ComponentRef, Directive, ElementRef, inject, input, OnInit, ViewContain
 import { HelpTextComponent } from '../components/help-text/help-text.component'
 
 @Directive({
-  selector: '[helpText]'
+  selector: '[helpMessage]'
 })
 export class HelpTextDirective implements OnInit {
-  message = input<string>()
+  helpMessage = input<string>()
 
   elementRef = inject(ElementRef)
   vcr = inject(ViewContainerRef)
@@ -13,9 +13,9 @@ export class HelpTextDirective implements OnInit {
   componentRef: ComponentRef<HelpTextComponent> | null = null
 
   ngOnInit(): void {
-    if (!this.message()) return
+    if (!this.helpMessage()) return
 
     this.componentRef = this.vcr.createComponent(HelpTextComponent)
-    this.componentRef.setInput('message', this.message())
+    this.componentRef.setInput('message', this.helpMessage())
   }
 }
