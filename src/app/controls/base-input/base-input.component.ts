@@ -73,9 +73,7 @@ export class BaseInputComponent implements OnInit, OnDestroy {
     this.hostClass = `field wrapper-${control.name}`
     this.parentForm.addControl(control.name, this.formControl)
 
-    this.toggleDisabledState()
-
-    this.subscription = this.parentForm.valueChanges.subscribe(() => {
+    this.subscription = this.parentForm.valueChanges.pipe(startWith(this.parentForm.value)).subscribe(() => {
       this.toggleDisabledState()
     })
   }
