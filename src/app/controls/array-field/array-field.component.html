@@ -1,30 +1,33 @@
-<fieldset>
+<fieldset [formArrayName]="control().name">
   <legend>{{ control().label }}</legend>
 
-  <div [formArrayName]="control().name">
-    @for (group of formControl.controls; track group; let i = $index) {
-      <div [formGroupName]="i">
-        @for (ctrl of control().controls; track ctrl.name) {
-          <ng-container
-            *activateControl="ctrl"
-            [ngComponentOutlet]="controlResolver.resolve(ctrl) | async"
-            [ngComponentOutletInjector]="ctrl | controlInjector: getControlValue(i)">
-          </ng-container>
-        }
-        <button
-          type="button"
-          (click)="removeItem(i)">
-          Eliminar
-        </button>
-      </div>
-    }
-  </div>
+  @for (group of formControl.controls; track group; let i = $index) {
+    <div [formGroupName]="i">
+      @for (ctrl of control().controls; track ctrl.name) {
+        <ng-container
+          *activateControl="ctrl"
+          [ngComponentOutlet]="controlResolver.resolve(ctrl) | async"
+          [ngComponentOutletInjector]="ctrl | controlInjector: getControlValue(i)">
+        </ng-container>
+      }
 
-  <button
-    type="button"
-    (click)="addItem()">
-    Agregar ítem
-  </button>
+      <div
+        role="button"
+        tabindex="0"
+        (click)="removeItem(i)"
+        (keydown.enter)="removeItem(i)">
+        <ng-container *ngComponentOutlet="buttons.remove"></ng-container>
+      </div>
+    </div>
+  }
+
+  <div
+    role="button"
+    tabindex="0"
+    (click)="addItem()"
+    (keydown.enter)="addItem()">
+    <ng-container *ngComponentOutlet="buttons.add"></ng-container>
+  </div>
 </fieldset>
 
 <div class="validation-feedback">

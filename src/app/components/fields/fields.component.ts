@@ -2,10 +2,13 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core'
 import { ControlContainer, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { AsyncPipe, NgComponentOutlet } from '@angular/common'
+
 import { ControlInjector } from '../../pipes/control-injector.pipe'
 import { Control } from '../../interfaces/forms.interfaces'
 import { ControlResolver } from '../../services/control-resolver.service'
 import { ActivateControlDirective } from '../../directives/activate-control.directive'
+import { ADD_REMOVE_BUTTONS } from '../../utils/add-remove-buttons.token'
+import { AddItemButtonComponent, RemoveItemButtonComponent } from '../buttons/buttons.component'
 
 @Component({
   selector: 'fields',
@@ -19,6 +22,15 @@ import { ActivateControlDirective } from '../../directives/activate-control.dire
       </ng-container>
     }
   `,
+  providers: [
+    {
+      provide: ADD_REMOVE_BUTTONS,
+      useFactory: () => ({
+        add: AddItemButtonComponent,
+        remove: RemoveItemButtonComponent
+      })
+    }
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FieldsComponent {
