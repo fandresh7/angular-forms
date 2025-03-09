@@ -15,6 +15,7 @@
         class="remove-button"
         role="button"
         tabindex="0"
+        type="button"
         (click)="removeItem(i)"
         (keydown.enter)="removeItem(i)">
         <ng-container *ngComponentOutlet="buttons.remove"></ng-container>
@@ -26,6 +27,7 @@
     class="add-button"
     role="button"
     tabindex="0"
+    type="button"
     (click)="addItem()"
     (keydown.enter)="addItem()">
     <ng-container *ngComponentOutlet="buttons.add"></ng-container>
