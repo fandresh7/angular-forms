@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
 @Component({
   selector: 'add-button',
   imports: [],
-  template: `<button>Add Item</button>`,
+  template: `Add Item`,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -12,7 +12,7 @@ export class AddItemButtonComponent {}
 @Component({
   selector: 'remove-button',
   imports: [],
-  template: `<button>Remove Item</button>`,
+  template: `Remove Item`,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
