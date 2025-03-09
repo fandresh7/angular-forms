@@ -1,0 +1,8 @@
+<select-dropdown
+  [label]="control().label"
+  [options]="items()"
+  [displayWith]="displayWithFn"
+  [compareWith]="compareWithFn"
+  [formControl]="formControl"
+  (valueHasChanged)="valueHasChanged($event)">
+</select-dropdown>

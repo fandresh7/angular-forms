@@ -1,0 +1,46 @@
+<div
+  cdkOverlayOrigin
+  #origin="cdkOverlayOrigin">
+  {{ label() }}
+  <div class="displayed-container">
+    @if (displayOptions().length === 0) {
+      <span>Nothing is selected...</span>
+    } @else {
+      <div class="displayed-options">
+        @for (option of displayOptions(); track option) {
+          <div class="displayed-option">
+            <span>{{ displayWithFn(option) }}</span>
+            <button
+              type="button"
+              (click)="deselectOption($event, option)">
+              x
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (detach)="close()">
+  <div class="dropdown">
+    @for (option of options(); track option) {
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            [checked]="selectedOptionsModel.isSelected(option)"
+            (change)="toggleSelection(option)" />
+          {{ displayWithFn(option) }}
+        </label>
+      </div>
+    }
+  </div>
+</ng-template>

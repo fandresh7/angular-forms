@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms'
 import { Control } from '../interfaces/forms.interfaces'
 
 export const example: Control[] = [
@@ -47,9 +48,8 @@ export const example: Control[] = [
         label: 'City',
         name: 'city',
         controlType: 'select',
-        options: form => {
+        options: (form: FormGroup) => {
           const address1 = form.value['address-line-1']
-
           if (address1 === 'Colombia') {
             return [
               { label: 'Type your subject', value: '', selected: true, disabled: true },
@@ -111,6 +111,25 @@ export const example: Control[] = [
         controlType: 'checkbox'
       }
     ]
+  },
+  {
+    label: 'Favorite Fruits',
+    name: 'favorite-fruits',
+    controlType: 'multi-select-dropdown',
+    items: [
+      { fruit_id: 1, fruit_name: 'Apple' },
+      { fruit_id: 2, fruit_name: 'Banana' },
+      { fruit_id: 3, fruit_name: 'Cherry' }
+    ],
+    itemLabel: 'fruit_name',
+    itemValue: 'fruit_id',
+    value: [1, 3]
+  },
+  {
+    label: 'Favorite Sports',
+    name: 'favorite-sports',
+    controlType: 'multi-select-dropdown',
+    items: ['soccer', 'football', 'tennis', 'beisbol']
   },
   {
     label: 'Terms',
