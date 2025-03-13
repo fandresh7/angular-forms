@@ -24,7 +24,7 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
   items = toSignal(this.getItems(), { initialValue: [] })
 
   isOpen = signal<boolean>(false)
-  selectedOptionsModel = new SelectionModel<T>(true)
+  selectedOptionsModel = new SelectionModel<T>(this.control().multiple ?? true)
   displayOptions = toSignal(this.selectedOptionsModel.changed.pipe(map(() => this.selectedOptionsModel.selected)), { initialValue: [] })
 
   constructor() {
@@ -47,6 +47,12 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
     if (Array.isArray(formControlValue)) {
       items.forEach(item => {
         if (formControlValue.some((val: string) => this.compareWithFn(item, val))) {
+          this.selectedOptionsModel.select(item)
+        }
+      })
+    } else {
+      items.forEach(item => {
+        if (this.compareWithFn(item, formControlValue)) {
           this.selectedOptionsModel.select(item)
         }
       })
@@ -97,16 +103,18 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
   valueHasChanged(items: T[]) {
     const control = this.control() as Control<T>
 
+    const isMultiple = control.multiple !== false
+
     const values = items.map(item => {
-      if (control.itemValue) {
-        const itemValue = (item as Record<string, unknown>)[control.itemValue]
-        return itemValue
-      } else {
-        return item
-      }
+      if (!control.itemValue) return item
+      return (item as Record<string, unknown>)[control.itemValue]
     })
 
-    this.formControl.setValue(values, { emitEvent: false })
+    if (isMultiple) {
+      this.formControl.setValue(values, { emitEvent: false })
+    } else {
+      this.formControl.setValue(values.at(0) ?? null, { emitEvent: false })
+    }
   }
 
   open() {

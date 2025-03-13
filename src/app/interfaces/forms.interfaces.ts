@@ -31,6 +31,7 @@ export interface Control<T = any> {
   items?: Items<T>
   itemLabel?: string
   itemValue?: string
+  multiple?: boolean
 }
 
 export interface Option {

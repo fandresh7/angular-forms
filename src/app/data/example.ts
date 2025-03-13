@@ -140,7 +140,8 @@ export const example: Control[] = [
     label: 'Favorite Sports',
     name: 'favorite-sports',
     controlType: 'multi-select-dropdown',
-    items: ['soccer', 'football', 'tennis', 'beisbol']
+    items: ['soccer', 'football', 'tennis', 'beisbol'],
+    multiple: false
   },
   {
     label: 'Terms',
