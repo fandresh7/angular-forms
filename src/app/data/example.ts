@@ -116,11 +116,22 @@ export const example: Control[] = [
     label: 'Favorite Fruits',
     name: 'favorite-fruits',
     controlType: 'multi-select-dropdown',
-    items: [
-      { fruit_id: 1, fruit_name: 'Apple' },
-      { fruit_id: 2, fruit_name: 'Banana' },
-      { fruit_id: 3, fruit_name: 'Cherry' }
-    ],
+    items: form => {
+      if (form.get('first-name')?.value === 'andres') {
+        return [
+          { fruit_id: 1, fruit_name: 'Apple' },
+          { fruit_id: 2, fruit_name: 'Banana' },
+          { fruit_id: 3, fruit_name: 'Cherry' },
+          { fruit_id: 4, fruit_name: 'Orange' }
+        ]
+      } else {
+        return [
+          { fruit_id: 1, fruit_name: 'Apple' },
+          { fruit_id: 2, fruit_name: 'Banana' },
+          { fruit_id: 3, fruit_name: 'Cherry' }
+        ]
+      }
+    },
     itemLabel: 'fruit_name',
     itemValue: 'fruit_id',
     value: [1, 3]

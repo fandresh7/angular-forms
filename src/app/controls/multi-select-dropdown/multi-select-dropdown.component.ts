@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal, effect } from '@angular/cor
 import { SelectionModel } from '@angular/cdk/collections'
 import { OverlayModule } from '@angular/cdk/overlay'
 import { toSignal } from '@angular/core/rxjs-interop'
-import { from, map, Observable, of } from 'rxjs'
+import { from, map, Observable, of, switchMap } from 'rxjs'
 import { FormControl } from '@angular/forms'
 
 import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
@@ -54,16 +54,23 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
   }
 
   getItems(): Observable<T[]> {
-    const control = this.control() as Control<T>
-    const items = control.items
+    return this.parentForm.valueChanges.pipe(
+      switchMap(() => {
+        const control = this.control() as Control<T>
+        const itemsFn = control.items
 
-    if (!items) return of([])
-    if (Array.isArray(items)) return of(items)
+        if (!itemsFn) return of([])
+        if (Array.isArray(itemsFn)) return of(itemsFn)
 
-    if (items instanceof Promise) return from(items)
-    if (items instanceof Observable) return items
+        const result = itemsFn(this.parentForm)
 
-    return of([])
+        if (result instanceof Promise) return from(result)
+        if (result instanceof Observable) return result
+        if (Array.isArray(result)) return of(result)
+
+        return of([])
+      })
+    )
   }
 
   displayWithFn(item: T) {
@@ -99,7 +106,7 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
       }
     })
 
-    this.formControl.setValue(values)
+    this.formControl.setValue(values, { emitEvent: false })
   }
 
   open() {
