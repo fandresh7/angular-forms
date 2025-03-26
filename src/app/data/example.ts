@@ -151,5 +151,12 @@ export const example: Control[] = [
     validators: {
       requiredTrue: true
     }
+  },
+  {
+    label: 'Interests',
+    name: 'interests',
+    controlType: 'chips-list',
+    value: ['Angular', 'TypeScript'],
+    placeholder: 'Add an interest'
   }
 ]

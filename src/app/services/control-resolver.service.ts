@@ -14,7 +14,8 @@ export class ControlResolver {
     group: () => import('../controls/group-field/group-field.component').then(c => c.GroupFieldComponent),
     array: () => import('../controls/array-field/array-field.component').then(c => c.ArrayFieldComponent),
     'checkbox-group': () => import('../controls/checkbox-group-field/checkbox-group-field.component').then(c => c.CheckboxGroupFieldComponent),
-    'multi-select-dropdown': () => import('../controls/multi-select-dropdown/multi-select-dropdown.component').then(c => c.MultiSelectDropdownComponent)
+    'multi-select-dropdown': () => import('../controls/multi-select-dropdown/multi-select-dropdown.component').then(c => c.MultiSelectDropdownComponent),
+    'chips-list': () => import('../controls/chips-list-field/chips-list-field.component').then(c => c.ChipsListFieldComponent)
   }
 
   private loadedControlComponents = new Map<string, Type<unknown>>()

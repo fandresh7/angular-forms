@@ -2,7 +2,7 @@
 import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 
-export type ControlType = 'input' | 'group' | 'checkbox' | 'checkbox-group' | 'radio' | 'select' | 'array' | 'multi-select-dropdown'
+export type ControlType = 'input' | 'group' | 'checkbox' | 'checkbox-group' | 'radio' | 'select' | 'array' | 'multi-select-dropdown' | 'chips-list'
 
 type CustomValidator = (control: AbstractControl) => ValidationErrors | null
 type ValidatorsKeys = keyof Omit<typeof Validators, 'prototype' | 'compose' | 'composeAsync'>
