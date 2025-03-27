@@ -59,13 +59,7 @@ export class BaseInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    const control = this.control()
-
-    if (this.parentForm.contains(control.name)) {
-      this.parentForm.removeControl(control.name)
-    }
-
-    this.subscription.unsubscribe()
+    this.destroy()
   }
 
   initialize() {
@@ -76,6 +70,16 @@ export class BaseInputComponent implements OnInit, OnDestroy {
     this.subscription = this.parentForm.valueChanges.pipe(startWith(this.parentForm.value)).subscribe(() => {
       this.toggleDisabledState()
     })
+  }
+
+  destroy() {
+    const control = this.control()
+
+    if (this.parentForm.contains(control.name)) {
+      this.parentForm.removeControl(control.name)
+    }
+
+    this.subscription.unsubscribe()
   }
 
   toggleDisabledState() {

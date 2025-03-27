@@ -185,5 +185,46 @@ export const example: Control[] = [
     validators: {
       required: true
     }
+  },
+  {
+    label: 'City',
+    name: 'city',
+    controlType: 'autocomplete',
+    placeholder: 'Type to search for a city',
+    autocompleteOptions: (form, query: string) => {
+      const cities = [
+        { city_id: 1, city_name: 'New York', country: 1 },
+        { city_id: 2, city_name: 'Los Angeles', country: 1 },
+        { city_id: 3, city_name: 'Chicago', country: 1 },
+        { city_id: 4, city_name: 'Houston', country: 1 },
+        { city_id: 5, city_name: 'London', country: 2 },
+        { city_id: 6, city_name: 'Birmingham', country: 2 },
+        { city_id: 7, city_name: 'Manchester', country: 2 },
+        { city_id: 8, city_name: 'Glasgow', country: 2 },
+        { city_id: 9, city_name: 'Toronto', country: 3 },
+        { city_id: 10, city_name: 'Montreal', country: 3 },
+        { city_id: 11, city_name: 'Vancouver', country: 3 },
+        { city_id: 12, city_name: 'Calgary', country: 3 },
+        { city_id: 13, city_name: 'Sydney', country: 4 },
+        { city_id: 14, city_name: 'Melbourne', country: 4 },
+        { city_id: 15, city_name: 'Brisbane', country: 4 },
+        { city_id: 16, city_name: 'Perth', country: 4 },
+        { city_id: 17, city_name: 'Berlin', country: 5 },
+        { city_id: 18, city_name: 'Hamburg', country: 5 },
+        { city_id: 19, city_name: 'Munich', country: 5 },
+        { city_id: 20, city_name: 'Cologne', country: 5 }
+      ]
+
+      const country = form.get('country')?.value
+      const result = cities.filter(city => city.country === country && city.city_name.toLowerCase().includes(query.toLowerCase()))
+
+      return of(result)
+    },
+    itemLabel: 'city_name',
+    itemValue: 'city_id',
+    resetOnChange: ['country'],
+    validators: {
+      required: true
+    }
   }
 ]

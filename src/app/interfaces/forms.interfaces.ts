@@ -118,6 +118,16 @@ export interface Control<T = any> {
    * an array of suggestions, a Promise that resolves to an array, or an Observable emitting an array.
    */
   autocompleteOptions?: AutocompleteOptions<T>
+
+  /**
+   * An optional array of field names that, when changed, trigger this control to reset.
+   *
+   * This property is useful for cases where the validity or relevance of the control's value depends on one or more
+   * other fields. For example, in an autocomplete control, changing a dependent field (like "country" for a "city" control)
+   * should clear the current selection. Note: The reset behavior implemented using this property is currently
+   * supported only for autocomplete controls.
+   */
+  resetOnChange?: string[]
 }
 
 /**

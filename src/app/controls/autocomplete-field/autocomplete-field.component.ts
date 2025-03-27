@@ -1,8 +1,8 @@
 // autocomplete-field.component.ts
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { OverlayModule } from '@angular/cdk/overlay'
-import { from, of, Observable } from 'rxjs'
+import { from, of, Observable, Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged, switchMap, map, startWith } from 'rxjs/operators'
 
 import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
@@ -16,12 +16,12 @@ import { Control } from '../../interfaces/forms.interfaces'
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
 })
-export class AutocompleteFieldComponent<T> extends BaseInputComponent {
+export class AutocompleteFieldComponent<T> extends BaseInputComponent implements OnInit, OnDestroy {
   // A separate control for the query input.
   queryControl = new FormControl<string>('')
 
-  // Signal to toggle the overlay open/close.
   isOpen = signal(false)
+  private dependencySubscriptions: Subscription[] = []
 
   // suggestions$ emits an array of options based on the current query.
   suggestions$: Observable<T[]> = this.queryControl.valueChanges.pipe(
@@ -70,5 +70,30 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent {
 
   close(): void {
     this.isOpen.set(false)
+  }
+
+  override ngOnInit(): void {
+    this.initialize()
+
+    // If the control configuration has a 'resetOnChange' array, subscribe to each dependency.
+    const ctrl = this.control() as Control<T> & { resetOnChange?: string[] }
+    if (ctrl.resetOnChange && Array.isArray(ctrl.resetOnChange)) {
+      ctrl.resetOnChange.forEach(depName => {
+        const depControl = this.parentForm.get(depName)
+        if (depControl) {
+          const sub = depControl.valueChanges.subscribe(() => {
+            this.formControl.reset()
+            this.queryControl.reset()
+          })
+          this.dependencySubscriptions.push(sub)
+        }
+      })
+    }
+  }
+
+  override ngOnDestroy(): void {
+    this.destroy()
+
+    this.dependencySubscriptions.forEach(sub => sub.unsubscribe())
   }
 }
