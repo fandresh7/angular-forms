@@ -18,7 +18,7 @@
     [placeholder]="control().placeholder ?? ''"
     [value]="inputValue()"
     (input)="inputValue.set($any($event.target).value)"
-    (keydown.enter)="addChip()" />
+    (keydown.enter)="$event.preventDefault(); addChip()" />
   <button
     type="button"
     (click)="addChip()">
