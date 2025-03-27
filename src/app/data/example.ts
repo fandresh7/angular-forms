@@ -158,7 +158,11 @@ export const example: Control[] = [
     name: 'interests',
     controlType: 'chips-list',
     value: ['Angular', 'TypeScript'],
-    placeholder: 'Add an interest'
+    placeholder: 'Add an interest',
+    validators: {
+      required: true,
+      customValidation: control => (control.value && control.value.length > 3 ? null : { custom: 'The value must contain more than 3 items' })
+    }
   },
   {
     label: 'Country',
@@ -177,6 +181,9 @@ export const example: Control[] = [
       return of(countries.filter(country => country.country_name.toLowerCase().includes(query.toLowerCase())))
     },
     itemLabel: 'country_name',
-    itemValue: 'country_id'
+    itemValue: 'country_id',
+    validators: {
+      required: true
+    }
   }
 ]

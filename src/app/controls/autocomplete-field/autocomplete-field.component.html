@@ -34,11 +34,11 @@
   </div>
 </ng-template>
 
-<!-- Validation messages: bind directly to the formControl to avoid interfering with the input -->
-<!-- <div class="validation-feedback">
+<div class="validation-feedback">
   <ng-container
+    ngDefaultControl
     validatorMessage
     [helpMessage]="control().helpText"
-    [formControl]="formControl">
+    [formControlName]="control().name">
   </ng-container>
-</div> -->
+</div>
