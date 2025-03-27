@@ -1,0 +1,44 @@
+<label [attr.for]="control().name">
+  {{ control().label }}
+</label>
+
+<!-- The input field for typing the query.
+     We assign a template reference variable (#origin) for the overlay origin. -->
+<input
+  #origin
+  [id]="control().name"
+  [placeholder]="control().placeholder ?? ''"
+  [formControl]="queryControl"
+  (focus)="open()"
+  autocomplete="off" />
+
+<!-- CDK Connected Overlay for suggestions dropdown -->
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (detach)="close()">
+  <div class="autocomplete-dropdown">
+    @for (option of suggestions$ | async; track option) {
+      <div
+        class="autocomplete-option"
+        tabindex="0"
+        (click)="selectOption(option)"
+        (keyup)="selectOption(option)">
+        {{ displayWithFn(option) }}
+      </div>
+    }
+  </div>
+</ng-template>
+
+<!-- Validation messages: bind directly to the formControl to avoid interfering with the input -->
+<!-- <div class="validation-feedback">
+  <ng-container
+    validatorMessage
+    [helpMessage]="control().helpText"
+    [formControl]="formControl">
+  </ng-container>
+</div> -->

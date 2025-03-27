@@ -2,7 +2,7 @@
 import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 
-export type ControlType = 'input' | 'group' | 'checkbox' | 'checkbox-group' | 'radio' | 'select' | 'array' | 'multi-select-dropdown' | 'chips-list'
+export type ControlType = 'input' | 'group' | 'checkbox' | 'checkbox-group' | 'radio' | 'select' | 'array' | 'multi-select-dropdown' | 'chips-list' | 'autocomplete'
 
 type CustomValidator = (control: AbstractControl) => ValidationErrors | null
 type ValidatorsKeys = keyof Omit<typeof Validators, 'prototype' | 'compose' | 'composeAsync'>
@@ -14,6 +14,7 @@ export type Visible = boolean | ((form: FormGroup) => boolean)
 export type Options = Option[] | ((form: FormGroup) => Option[] | Promise<Option[]> | Observable<Option[]>)
 export type Disabled = boolean | ((form: FormGroup) => boolean)
 export type Items<T> = T[] | ((form: FormGroup) => T[] | Promise<T[]> | Observable<T[]>)
+export type AutocompleteOptions<T> = (form: FormGroup, query: string) => T[] | Promise<T[]> | Observable<T[]>
 
 /**
  * Represents a configuration for a form control within the library.
@@ -108,6 +109,15 @@ export interface Control<T = any> {
    * @default true
    */
   multiple?: boolean
+
+  /**
+   * A function or configuration that provides autocomplete suggestions.
+   *
+   * This property is used exclusively by controls of type `autocomplete` to dynamically fetch or compute
+   * suggestion options based on the user's query. The function receives the current query string and should return
+   * an array of suggestions, a Promise that resolves to an array, or an Observable emitting an array.
+   */
+  autocompleteOptions?: AutocompleteOptions<T>
 }
 
 /**

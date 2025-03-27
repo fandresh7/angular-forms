@@ -1,5 +1,6 @@
 import { FormGroup } from '@angular/forms'
 import { Control } from '../interfaces/forms.interfaces'
+import { of } from 'rxjs'
 
 export const example: Control[] = [
   {
@@ -158,5 +159,24 @@ export const example: Control[] = [
     controlType: 'chips-list',
     value: ['Angular', 'TypeScript'],
     placeholder: 'Add an interest'
+  },
+  {
+    label: 'Country',
+    name: 'country',
+    controlType: 'autocomplete',
+    placeholder: 'Type to search for a country',
+    autocompleteOptions: (form, query: string) => {
+      const countries = [
+        { country_id: 1, country_name: 'USA' },
+        { country_id: 2, country_name: 'United Kingdom' },
+        { country_id: 3, country_name: 'Canada' },
+        { country_id: 4, country_name: 'Australia' },
+        { country_id: 5, country_name: 'Germany' }
+      ]
+
+      return of(countries.filter(country => country.country_name.toLowerCase().includes(query.toLowerCase())))
+    },
+    itemLabel: 'country_name',
+    itemValue: 'country_id'
   }
 ]
