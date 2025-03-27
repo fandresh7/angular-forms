@@ -37,7 +37,10 @@
           <input
             type="checkbox"
             [checked]="selectedOptionsModel.isSelected(option)"
-            (change)="toggleSelection(option)" />
+            (change)="toggleSelection(option)"
+            [attr.aria-checked]="selectedOptionsModel.isSelected(option) ? 'true' : 'false'"
+            [attr.aria-selected]="selectedOptionsModel.isSelected(option) ? 'true' : 'false'"
+            role="option" />
           {{ displayWithFn(option) }}
         </label>
       </div>

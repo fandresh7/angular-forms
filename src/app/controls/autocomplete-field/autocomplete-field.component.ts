@@ -64,6 +64,16 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
     this.close()
   }
 
+  isSelected(option: T): boolean {
+    const ctrl = this.control() as Control<T>
+    const value = this.formControl.value
+
+    const optionValue = ctrl.itemValue ? (option as Record<string, unknown>)[ctrl.itemValue] : option
+
+    if (Array.isArray(value)) return value.includes(optionValue)
+    return value === optionValue
+  }
+
   open(): void {
     this.isOpen.set(true)
   }

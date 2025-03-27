@@ -10,7 +10,9 @@
   [placeholder]="control().placeholder ?? ''"
   [formControl]="queryControl"
   (focus)="open()"
-  autocomplete="off" />
+  autocomplete="off"
+  [attr.aria-expanded]="isOpen() ? 'true' : 'false'"
+  aria-controls="autocomplete-list" />
 
 <!-- CDK Connected Overlay for suggestions dropdown -->
 <ng-template
@@ -21,13 +23,19 @@
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   (backdropClick)="close()"
   (detach)="close()">
-  <div class="autocomplete-dropdown">
+  <div
+    class="autocomplete-dropdown"
+    role="listbox"
+    aria-live="assertive"
+    id="autocomplete-list">
     @for (option of suggestions$ | async; track option) {
       <div
         class="autocomplete-option"
         tabindex="0"
         (click)="selectOption(option)"
-        (keyup)="selectOption(option)">
+        (keyup)="selectOption(option)"
+        role="option"
+        [attr.aria-selected]="isSelected(option)">
         {{ displayWithFn(option) }}
       </div>
     }

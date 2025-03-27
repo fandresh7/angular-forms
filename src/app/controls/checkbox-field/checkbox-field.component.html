@@ -1,6 +1,7 @@
 <label>
   <input
     type="checkbox"
+    [attr.aria-checked]="formControl.value ? 'true' : 'false'"
     [formControlName]="control().name" />
   {{ control().label }}
 </label>

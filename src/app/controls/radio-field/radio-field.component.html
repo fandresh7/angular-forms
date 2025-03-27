@@ -5,7 +5,8 @@
       <input
         type="radio"
         [formControlName]="control().name"
-        [value]="option.value" />
+        [value]="option.value"
+        [attr.aria-checked]="formControl.value === option.value ? 'true' : 'false'" />
       {{ option.label }}
     </label>
   }

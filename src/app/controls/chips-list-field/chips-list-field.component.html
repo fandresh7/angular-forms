@@ -18,9 +18,11 @@
     [placeholder]="control().placeholder ?? ''"
     [value]="inputValue()"
     (input)="inputValue.set($any($event.target).value)"
-    (keydown.enter)="$event.preventDefault(); addChip()" />
+    (keydown.enter)="$event.preventDefault(); addChip()"
+    aria-label="Add new chip" />
   <button
     type="button"
+    aria-label="Add chip"
     (click)="addChip()">
     Add
   </button>
