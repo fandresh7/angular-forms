@@ -86,12 +86,12 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
     this.initialize()
 
     // If the control configuration has a 'resetOnChange' array, subscribe to each dependency.
-    const ctrl = this.control() as Control<T> & { resetOnChange?: string[] }
+    const ctrl = this.control() as Control<T>
     if (ctrl.resetOnChange && Array.isArray(ctrl.resetOnChange)) {
       ctrl.resetOnChange.forEach(depName => {
         const depControl = this.parentForm.get(depName)
         if (depControl) {
-          const sub = depControl.valueChanges.subscribe(() => {
+          const sub = depControl.valueChanges.pipe(distinctUntilChanged()).subscribe(() => {
             this.formControl.reset()
             this.queryControl.reset()
           })
