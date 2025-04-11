@@ -2,8 +2,6 @@
   {{ control().label }}
 </label>
 
-<!-- The input field for typing the query.
-     We assign a template reference variable (#origin) for the overlay origin. -->
 <input
   #origin
   [id]="control().name"
@@ -13,6 +11,10 @@
   autocomplete="off"
   [attr.aria-expanded]="isOpen() ? 'true' : 'false'"
   aria-controls="autocomplete-list" />
+
+@if (loading()) {
+  <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px">loading</div>
+}
 
 <!-- CDK Connected Overlay for suggestions dropdown -->
 <ng-template

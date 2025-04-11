@@ -2,7 +2,10 @@
   [formGroup]="form"
   (submit)="submit()"
   autocomplete="off">
-  <fields [controls]="controls()"></fields>
+  <fields
+    [controls]="controls()"
+    [data]="data">
+  </fields>
 
   <button type="submit">Enviar</button>
 </form>

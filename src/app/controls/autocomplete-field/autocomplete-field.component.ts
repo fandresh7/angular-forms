@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@
 import { FormControl } from '@angular/forms'
 import { OverlayModule } from '@angular/cdk/overlay'
 import { from, of, Observable, Subscription } from 'rxjs'
-import { debounceTime, distinctUntilChanged, switchMap, map, startWith } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, switchMap, map, startWith, tap } from 'rxjs/operators'
 
 import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 import { Control } from '../../interfaces/forms.interfaces'
@@ -21,12 +21,14 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
   queryControl = new FormControl<string>('')
 
   isOpen = signal(false)
+  loading = signal(false)
   private dependencySubscriptions: Subscription[] = []
 
   // suggestions$ emits an array of options based on the current query.
   suggestions$: Observable<T[]> = this.queryControl.valueChanges.pipe(
     startWith(this.queryControl.value),
     debounceTime(300),
+    tap(() => this.loading.set(true)),
     map(query => query || ''),
     distinctUntilChanged(),
     switchMap((query: string) => {
@@ -41,6 +43,7 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
 
       return of([])
     })
+    // tap(() => this.loading.set(false))
   )
 
   displayWithFn(item: T): string {

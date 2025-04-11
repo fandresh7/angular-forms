@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms'
 import { Control } from '../interfaces/forms.interfaces'
-import { of } from 'rxjs'
+import { delay, of } from 'rxjs'
 
 export const example: Control[] = [
   {
@@ -178,7 +178,7 @@ export const example: Control[] = [
         { country_id: 5, country_name: 'Germany' }
       ]
 
-      return of(countries.filter(country => country.country_name.toLowerCase().includes(query.toLowerCase())))
+      return of(countries.filter(country => country.country_name.toLowerCase().includes(query.toLowerCase()))).pipe(delay(1000))
     },
     itemLabel: 'country_name',
     itemValue: 'country_id',
@@ -216,8 +216,9 @@ export const example: Control[] = [
       ]
 
       const country = form.get('country')?.value
-      const result = cities.filter(city => city.country === country && city.city_name.toLowerCase().includes(query.toLowerCase()))
+      if (!country) return cities
 
+      const result = cities.filter(city => city.country === country && city.city_name.toLowerCase().includes(query.toLowerCase()))
       return of(result)
     },
     itemLabel: 'city_name',
@@ -225,6 +226,16 @@ export const example: Control[] = [
     resetOnChange: ['country'],
     validators: {
       required: true
+    }
+  },
+  {
+    label: 'Language',
+    name: 'language',
+    controlType: 'autocomplete',
+    placeholder: 'Type to search for a language',
+    autocompleteOptions: (form, query) => {
+      const languages = ['Spanish', 'English', 'Portuguese', 'Japanese', 'Chinese']
+      return languages.filter(item => item.toLowerCase().includes(query.toLowerCase()))
     }
   }
 ]
