@@ -2,59 +2,74 @@ import { Injectable } from '@angular/core'
 import { Control, ControlValidators } from '../interfaces/forms.interfaces'
 import { ValidatorFn, Validators } from '@angular/forms'
 
+type ValidatorStrategy = (value: unknown) => ValidatorFn[]
+
 @Injectable({
   providedIn: 'root'
 })
 export class ValidatorsService {
-  resolveValidators({ validators = {} }: Control) {
-    const validatorsKeys = Object.keys(validators) as (keyof ControlValidators)[]
+  private readonly validatorStrategies: Partial<Record<keyof ControlValidators, ValidatorStrategy>> = {
+    customValidation: (value: unknown): ValidatorFn[] => {
+      if (typeof value === 'function') {
+        return [value as ValidatorFn]
+      }
+      if (Array.isArray(value)) {
+        return value.filter((fn): fn is ValidatorFn => typeof fn === 'function')
+      }
+      return []
+    },
+
+    pattern: (value: unknown): ValidatorFn[] => {
+      if (typeof value === 'string' || value instanceof RegExp) {
+        return [Validators.pattern(value)]
+      }
+      return []
+    },
+
+    max: (value: unknown): ValidatorFn[] => {
+      return typeof value === 'number' ? [Validators.max(value)] : []
+    },
+
+    min: (value: unknown): ValidatorFn[] => {
+      return typeof value === 'number' ? [Validators.min(value)] : []
+    },
+
+    maxLength: (value: unknown): ValidatorFn[] => {
+      return typeof value === 'number' ? [Validators.maxLength(value)] : []
+    },
+
+    minLength: (value: unknown): ValidatorFn[] => {
+      return typeof value === 'number' ? [Validators.minLength(value)] : []
+    },
+
+    requiredTrue: (): ValidatorFn[] => {
+      return [Validators.requiredTrue]
+    },
+
+    email: (): ValidatorFn[] => {
+      return [Validators.email]
+    },
+
+    required: (): ValidatorFn[] => {
+      return [Validators.required]
+    }
+  }
+
+  resolveValidators({ validators = {} }: Control): ValidatorFn | null {
     const validatorFns: ValidatorFn[] = []
 
-    validatorsKeys.forEach(key => {
-      const value = validators[key]
+    for (const key in validators) {
+      if (Object.prototype.hasOwnProperty.call(validators, key)) {
+        const typedKey = key as keyof ControlValidators
+        const strategy = this.validatorStrategies[typedKey]
 
-      if (key === 'customValidation' && typeof value === 'function') {
-        validatorFns.push(value as ValidatorFn)
+        if (strategy) {
+          const value = validators[typedKey]
+          const fns = strategy(value)
+          validatorFns.push(...fns)
+        }
       }
-
-      if (key === 'customValidation' && Array.isArray(value)) {
-        value.forEach(fn => {
-          if (typeof fn === 'function') validatorFns.push(fn)
-        })
-      }
-
-      if (key === 'pattern' && typeof value === 'string') {
-        validatorFns.push(Validators.pattern(value))
-      }
-
-      if (key === 'max' && typeof value === 'number') {
-        validatorFns.push(Validators.max(value))
-      }
-
-      if (key === 'min' && typeof value === 'number') {
-        validatorFns.push(Validators.min(value))
-      }
-
-      if (key === 'maxLength' && typeof value === 'number') {
-        validatorFns.push(Validators.maxLength(value))
-      }
-
-      if (key === 'minLength' && typeof value === 'number') {
-        validatorFns.push(Validators.minLength(value))
-      }
-
-      if (key === 'requiredTrue') {
-        validatorFns.push(Validators.requiredTrue)
-      }
-
-      if (key === 'email') {
-        validatorFns.push(Validators.email)
-      }
-
-      if (key === 'required') {
-        validatorFns.push(Validators.required)
-      }
-    })
+    }
 
     return validatorFns.length > 0 ? Validators.compose(validatorFns) : null
   }
