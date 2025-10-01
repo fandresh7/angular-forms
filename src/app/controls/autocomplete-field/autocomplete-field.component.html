@@ -30,7 +30,7 @@
     role="listbox"
     aria-live="assertive"
     id="autocomplete-list">
-    @for (option of suggestions$ | async; track option) {
+    @for (option of suggestions$ | async; track trackByFn($index, option)) {
       <div
         class="autocomplete-option"
         tabindex="0"

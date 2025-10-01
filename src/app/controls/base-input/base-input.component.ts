@@ -51,7 +51,7 @@ export class BaseInputComponent implements OnInit, OnDestroy {
 
       return of([])
     }),
-    shareReplay(1)
+    shareReplay({ bufferSize: 1, refCount: true })
   )
 
   ngOnInit(): void {

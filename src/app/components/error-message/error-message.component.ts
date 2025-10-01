@@ -8,7 +8,7 @@ import { VALIDATION_ERROR_MESSAGES } from '../../utils/validation-error-messages
   selector: 'error-message',
   imports: [KeyValuePipe],
   template: `
-    @for (error of errors() | keyvalue; track error) {
+    @for (error of errors() | keyvalue; track error.key) {
       <p style="margin: 0">{{ getError(error) }}</p>
     }
   `,

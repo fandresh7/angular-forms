@@ -125,6 +125,11 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
     this.isOpen.set(false)
   }
 
+  trackByFn(index: number, item: T): unknown {
+    const ctrl = this.control() as Control<T>
+    return ctrl.itemValue ? (item as Record<string, unknown>)[ctrl.itemValue] : index
+  }
+
   toggleSelection(option: T) {
     this.selectedOptionsModel.toggle(option)
   }

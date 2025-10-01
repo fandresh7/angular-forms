@@ -85,6 +85,11 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
     this.isOpen.set(false)
   }
 
+  trackByFn(index: number, item: T): unknown {
+    const ctrl = this.control() as Control<T>
+    return ctrl.itemValue ? (item as Record<string, unknown>)[ctrl.itemValue] : index
+  }
+
   override ngOnInit(): void {
     this.initialize()
 

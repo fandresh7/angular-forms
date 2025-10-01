@@ -7,7 +7,7 @@
       <span>Nothing is selected...</span>
     } @else {
       <div class="displayed-options">
-        @for (option of displayOptions(); track option) {
+        @for (option of displayOptions(); track trackByFn($index, option)) {
           <div class="displayed-option">
             <span>{{ displayWithFn(option) }}</span>
             <button
@@ -31,7 +31,7 @@
   (backdropClick)="close()"
   (detach)="close()">
   <div class="dropdown">
-    @for (option of items(); track option) {
+    @for (option of items(); track trackByFn($index, option)) {
       <div>
         <label>
           <input

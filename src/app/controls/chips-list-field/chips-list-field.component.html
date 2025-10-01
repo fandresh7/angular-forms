@@ -3,7 +3,7 @@
 </label>
 
 <div class="chips-container">
-  @for (chip of formControl.value; track chip) {
+  @for (chip of formControl.value; track $index) {
     <div class="chip">
       {{ chip }}
       <button
