@@ -1,9 +1,11 @@
 <label [for]="control().name">{{ control().label }}</label>
 <input
   [id]="control().name"
+  [name]="control().name"
   [type]="control().type || 'text'"
   [formControlName]="control().name"
-  [placeholder]="control().placeholder ?? ''" />
+  [placeholder]="control().placeholder ?? ''"
+  autocomplete="off" />
 
 <div class="validation-feedback">
   <ng-container

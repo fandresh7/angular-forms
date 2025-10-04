@@ -1,5 +1,7 @@
 <label>
   <input
+    [id]="control().name"
+    [name]="control().name"
     type="checkbox"
     [attr.aria-checked]="formControl.value ? 'true' : 'false'"
     [formControlName]="control().name" />

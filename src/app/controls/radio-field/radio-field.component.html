@@ -1,8 +1,11 @@
-<label for="">{{ control().label }}</label>
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<label>{{ control().label }}</label>
 <div>
   @for (option of options$ | async; track option.value) {
     <label>
       <input
+        [id]="control().name + '-' + option.value"
+        [name]="control().name"
         type="radio"
         [formControlName]="control().name"
         [value]="option.value"

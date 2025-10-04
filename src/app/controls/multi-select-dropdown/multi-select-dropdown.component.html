@@ -1,7 +1,8 @@
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<label>{{ control().label }}</label>
 <div
   cdkOverlayOrigin
   #origin="cdkOverlayOrigin">
-  {{ control().label }}
   <div class="displayed-container">
     @if (displayOptions().length === 0) {
       <span>Nothing is selected...</span>
@@ -35,6 +36,8 @@
       <div>
         <label>
           <input
+            [id]="control().name + '-option-' + $index"
+            [name]="control().name + '-option-' + $index"
             type="checkbox"
             [checked]="selectedOptionsModel.isSelected(option)"
             (change)="toggleSelection(option)"

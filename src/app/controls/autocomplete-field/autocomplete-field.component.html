@@ -5,6 +5,7 @@
 <input
   #origin
   [id]="control().name"
+  [name]="control().name"
   [placeholder]="control().placeholder ?? ''"
   [formControl]="queryControl"
   (focus)="open()"

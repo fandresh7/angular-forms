@@ -1,6 +1,7 @@
 <label [attr.for]="control().name">{{ control().label }}</label>
 <select
   [id]="control().name"
+  [name]="control().name"
   [formControlName]="control().name">
   @for (option of options$ | async; track option.value) {
     <option
