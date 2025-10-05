@@ -34,25 +34,44 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
     switchMap((query: string) => {
       const ctrl = this.control()
       if (!ctrl.autocompleteOptions) {
+        this.loading.set(false)
         return of([]) as Observable<T[]>
       }
 
+      // Set loading to true before fetching
+      this.loading.set(true)
+
       const result = ctrl.autocompleteOptions(this.parentForm, query)
 
+      let resultObservable: Observable<T[]>
+
+      // Handle Promise
       if (result instanceof Promise) {
-        return from(result) as Observable<T[]>
+        resultObservable = from(result) as Observable<T[]>
       }
-      if (Array.isArray(result)) {
-        return of(result) as Observable<T[]>
+      // Handle Observable
+      else if (result && typeof result === 'object' && 'subscribe' in result) {
+        resultObservable = result as Observable<T[]>
+      }
+      // Handle Array
+      else if (Array.isArray(result)) {
+        resultObservable = of(result) as Observable<T[]>
+      } else {
+        resultObservable = of([]) as Observable<T[]>
       }
 
-      return of([]) as Observable<T[]>
+      // Set loading to false after results arrive
+      return resultObservable.pipe(
+        map(results => {
+          this.loading.set(false)
+          return results
+        })
+      )
     })
   )
 
   displayWithFn(item: T): string {
     const control = this.control() as AutocompleteControl<T>
-
     if (control.itemLabel) {
       const label = (item as Record<string, unknown>)[control.itemLabel]
       return label !== null && label !== undefined ? String(label) : ''
