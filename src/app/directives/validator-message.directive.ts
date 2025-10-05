@@ -23,7 +23,9 @@ export class ValidatorMessageDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     const control = this.ngControl.control
-    if (!control) return
+    if (!control) {
+      return
+    }
 
     this.controlSubscription = merge(
       control.statusChanges,

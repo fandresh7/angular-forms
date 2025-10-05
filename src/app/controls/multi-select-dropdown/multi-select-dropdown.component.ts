@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal, effect } from '@angular/core'
+import { ChangeDetectionStrategy, Component, effect, signal } from '@angular/core'
 import { SelectionModel } from '@angular/cdk/collections'
 import { OverlayModule } from '@angular/cdk/overlay'
 import { toSignal } from '@angular/core/rxjs-interop'
@@ -65,14 +65,24 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
         const control = this.control() as Control<T>
         const itemsFn = control.items
 
-        if (!itemsFn) return of([])
-        if (Array.isArray(itemsFn)) return of(itemsFn)
+        if (!itemsFn) {
+          return of([])
+        }
+        if (Array.isArray(itemsFn)) {
+          return of(itemsFn)
+        }
 
         const result = itemsFn(this.parentForm)
 
-        if (result instanceof Promise) return from(result)
-        if (result instanceof Observable) return result
-        if (Array.isArray(result)) return of(result)
+        if (result instanceof Promise) {
+          return from(result)
+        }
+        if (result instanceof Observable) {
+          return result
+        }
+        if (Array.isArray(result)) {
+          return of(result)
+        }
 
         return of([])
       })
@@ -106,7 +116,9 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
     const isMultiple = control.multiple !== false
 
     const values = items.map(item => {
-      if (!control.itemValue) return item
+      if (!control.itemValue) {
+        return item
+      }
       return (item as Record<string, unknown>)[control.itemValue]
     })
 

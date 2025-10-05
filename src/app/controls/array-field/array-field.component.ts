@@ -37,12 +37,16 @@ export class ArrayFieldComponent extends BaseInputComponent implements OnInit {
   }
 
   removeItem(i: number) {
-    if (this.checkDisabled()) return
+    if (this.checkDisabled()) {
+      return
+    }
     this.formControl.removeAt(i)
   }
 
   addItem() {
-    if (this.checkDisabled()) return
+    if (this.checkDisabled()) {
+      return
+    }
 
     const group = this.fb.group({})
     this.formControl.push(group)

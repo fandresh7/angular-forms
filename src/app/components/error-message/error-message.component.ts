@@ -20,7 +20,9 @@ export class ErrorMessageComponent {
   errorsMap = inject(VALIDATION_ERROR_MESSAGES)
 
   getError(error: KeyValue<string, any>) {
-    if (!this.errorsMap[error.key]) return
+    if (!this.errorsMap[error.key]) {
+      return
+    }
 
     const message = this.errorsMap[error.key](error.value)
     return message

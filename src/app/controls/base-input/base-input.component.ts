@@ -40,14 +40,24 @@ export class BaseInputComponent implements OnInit, OnDestroy {
     switchMap(() => {
       const optionsFn = this.control().options
 
-      if (!optionsFn) return of([])
-      if (Array.isArray(optionsFn)) return of(optionsFn)
+      if (!optionsFn) {
+        return of([])
+      }
+      if (Array.isArray(optionsFn)) {
+        return of(optionsFn)
+      }
 
       const result = optionsFn(this.parentForm)
 
-      if (isObservable(result)) return result
-      if (result instanceof Promise) return from(result)
-      if (Array.isArray(result)) return of(result)
+      if (isObservable(result)) {
+        return result
+      }
+      if (result instanceof Promise) {
+        return from(result)
+      }
+      if (Array.isArray(result)) {
+        return of(result)
+      }
 
       return of([])
     }),
@@ -95,9 +105,13 @@ export class BaseInputComponent implements OnInit, OnDestroy {
   checkDisabled() {
     const control = this.control()
 
-    if (control.disabled === undefined) return false
+    if (control.disabled === undefined) {
+      return false
+    }
 
-    if (typeof control.disabled === 'boolean') return control.disabled
+    if (typeof control.disabled === 'boolean') {
+      return control.disabled
+    }
 
     if (typeof control.disabled === 'function') {
       const result = control.disabled(this.parentForm)

@@ -2,8 +2,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core'
 import { FormControl } from '@angular/forms'
 import { OverlayModule } from '@angular/cdk/overlay'
-import { from, of, Observable, Subscription } from 'rxjs'
-import { debounceTime, distinctUntilChanged, switchMap, map, startWith, tap } from 'rxjs/operators'
+
+import { from, Observable, of, Subscription } from 'rxjs'
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators'
 
 import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 import { Control } from '../../interfaces/forms.interfaces'
@@ -33,13 +34,21 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
     distinctUntilChanged(),
     switchMap((query: string) => {
       const ctrl = this.control()
-      if (!ctrl.autocompleteOptions) return of([])
+      if (!ctrl.autocompleteOptions) {
+        return of([])
+      }
 
       const result = ctrl.autocompleteOptions(this.parentForm, query)
 
-      if (result instanceof Observable) return result
-      if (result instanceof Promise) return from(result)
-      if (Array.isArray(result)) return of(result)
+      if (result instanceof Observable) {
+        return result
+      }
+      if (result instanceof Promise) {
+        return from(result)
+      }
+      if (Array.isArray(result)) {
+        return of(result)
+      }
 
       return of([])
     })
@@ -51,7 +60,7 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
 
     if (control.itemLabel) {
       const label = (item as Record<string, unknown>)[control.itemLabel]
-      return label != null ? String(label) : ''
+      return label !== null && label !== undefined ? String(label) : ''
     } else {
       return String(item)
     }
@@ -73,7 +82,9 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
 
     const optionValue = ctrl.itemValue ? (option as Record<string, unknown>)[ctrl.itemValue] : option
 
-    if (Array.isArray(value)) return value.includes(optionValue)
+    if (Array.isArray(value)) {
+      return value.includes(optionValue)
+    }
     return value === optionValue
   }
 

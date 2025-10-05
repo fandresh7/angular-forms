@@ -216,7 +216,9 @@ export const example: Control[] = [
       ]
 
       const country = form.get('country')?.value
-      if (!country) return cities
+      if (!country) {
+        return cities
+      }
 
       const result = cities.filter(city => city.country === country && city.city_name.toLowerCase().includes(query.toLowerCase()))
       return of(result)

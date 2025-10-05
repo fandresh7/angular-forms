@@ -18,8 +18,7 @@ import { AddItemButtonComponent, RemoveItemButtonComponent } from '../buttons/bu
       <ng-container
         *activateControl="control"
         [ngComponentOutlet]="controlResolver.resolve(control) | async"
-        [ngComponentOutletInjector]="control | controlInjector: data()">
-      </ng-container>
+        [ngComponentOutletInjector]="control | controlInjector: data()" />
     }
   `,
   providers: [

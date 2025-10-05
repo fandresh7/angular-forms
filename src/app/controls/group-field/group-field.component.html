@@ -3,7 +3,6 @@
     <ng-container
       *activateControl="control"
       [ngComponentOutlet]="controlResolver.resolve(control) | async"
-      [ngComponentOutletInjector]="control | controlInjector: value()">
-    </ng-container>
+      [ngComponentOutletInjector]="control | controlInjector: value()" />
   }
 </div>

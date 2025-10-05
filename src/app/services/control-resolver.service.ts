@@ -25,7 +25,9 @@ export class ControlResolver {
     const controlType = control.controlType
 
     const loadedComponent = this.loadedControlComponents.get(controlType)
-    if (loadedComponent) return of(loadedComponent)
+    if (loadedComponent) {
+      return of(loadedComponent)
+    }
 
     return from(this.lazyControlComponents[controlType]()).pipe(tap(component => this.loadedControlComponents.set(controlType, component)))
   }

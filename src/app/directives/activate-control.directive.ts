@@ -41,7 +41,9 @@ export class ActivateControlDirective implements OnInit, OnDestroy {
   isVisible() {
     const visible = this.activateControl()?.visible
 
-    if (visible === undefined) return true
+    if (visible === undefined) {
+      return true
+    }
 
     if (typeof visible === 'function') {
       return visible(this.rootFormGroup)

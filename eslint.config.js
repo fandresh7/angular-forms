@@ -15,6 +15,36 @@ module.exports = tseslint.config(
       eslintPluginPrettierRecommended
     ],
     processor: angular.processInlineTemplates,
+    rules: {
+      // ✅ TypeScript strict rules
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-unused-vars": ["error", { 
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_" 
+      }],
+      
+      // ✅ Angular best practices
+      "@angular-eslint/no-host-metadata-property": "off",
+      "@angular-eslint/prefer-standalone": "error",
+      "@angular-eslint/use-injectable-provided-in": "error",
+      "@angular-eslint/prefer-on-push-component-change-detection": "warn",
+      
+      // ✅ Code quality
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
+      "prefer-const": "error",
+      "no-var": "error",
+      "eqeqeq": ["error", "always"],
+      "curly": ["error", "all"],
+      "no-throw-literal": "error",
+      
+      // ✅ Import organization
+      "sort-imports": ["error", {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }]
+    }
   },
   {
     files: ["**/*.html"],
@@ -22,6 +52,13 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
       eslintPluginPrettierRecommended
-    ]
+    ],
+    rules: {
+      // ✅ Template best practices
+      "@angular-eslint/template/prefer-control-flow": "error",
+      "@angular-eslint/template/prefer-self-closing-tags": "error",
+      "@angular-eslint/template/no-call-expression": "warn",
+      "@angular-eslint/template/use-track-by-function": "error"
+    }
   }
 );

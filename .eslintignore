@@ -1,0 +1,23 @@
+# Build outputs
+dist/
+.angular/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.js.map
+*.d.ts
+
+# Test files
+*.spec.ts
+
+# Config files
+*.config.js
+karma.conf.js
+
+# Documentation
+MEJORAS_RECOMENDADAS.md
+EJEMPLOS_REFACTORIZADOS.md
+PLAN_IMPLEMENTACION.md

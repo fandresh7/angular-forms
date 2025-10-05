@@ -16,7 +16,9 @@ export class ChipsListFieldComponent extends BaseInputComponent {
 
   addChip() {
     const trimmed = this.inputValue().trim()
-    if (!trimmed) return
+    if (!trimmed) {
+      return
+    }
 
     const currentChips = this.formControl.value || []
     this.formControl.setValue([...currentChips, trimmed])
