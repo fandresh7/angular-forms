@@ -8,6 +8,7 @@ export const example: Control[] = [
     name: 'first-name',
     controlType: 'input',
     placeholder: 'First Name',
+    helpText: 'This is a help text',
     validators: {
       required: true
     }
