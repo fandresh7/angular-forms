@@ -1,7 +1,7 @@
 <fieldset [formArrayName]="control().name">
   <legend>{{ control().label }}</legend>
 
-  @for (group of formControl.controls; track i; let i = $index) {
+  @for (group of formControl.controls; track group; let i = $index) {
     <div [formGroupName]="i">
       @for (ctrl of control().controls; track ctrl.name) {
         <ng-container
