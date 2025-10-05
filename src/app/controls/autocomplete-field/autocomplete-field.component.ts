@@ -1,5 +1,6 @@
 // autocomplete-field.component.ts
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core'
+import { AsyncPipe } from '@angular/common'
 import { FormControl } from '@angular/forms'
 import { OverlayModule } from '@angular/cdk/overlay'
 
@@ -11,8 +12,7 @@ import { Control } from '../../interfaces/forms.interfaces'
 
 @Component({
   selector: 'autocomplete-field',
-  standalone: true,
-  imports: [...controlDeps, OverlayModule],
+  imports: [...controlDeps, OverlayModule, AsyncPipe],
   templateUrl: './autocomplete-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
@@ -120,7 +120,7 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
     }
   }
 
-  override ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.destroy()
 
     this.dependencySubscriptions.forEach(sub => sub.unsubscribe())

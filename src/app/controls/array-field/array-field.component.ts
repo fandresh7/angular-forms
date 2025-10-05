@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core'
-import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
+import { AsyncPipe } from '@angular/common'
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms'
+
+import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 
 import { ControlResolver } from '../../services/control-resolver.service'
 import { ADD_REMOVE_BUTTONS } from '../../utils/add-remove-buttons.token'
 
 @Component({
   selector: 'array-field',
-  imports: [...controlDeps],
+  imports: [...controlDeps, AsyncPipe],
   templateUrl: './array-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [controlProvider]
@@ -37,14 +39,14 @@ export class ArrayFieldComponent extends BaseInputComponent implements OnInit {
   }
 
   removeItem(i: number) {
-    if (this.checkDisabled()) {
+    if (this.isDisabled()) {
       return
     }
     this.formControl.removeAt(i)
   }
 
   addItem() {
-    if (this.checkDisabled()) {
+    if (this.isDisabled()) {
       return
     }
 

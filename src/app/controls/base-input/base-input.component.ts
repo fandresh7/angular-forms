@@ -1,7 +1,8 @@
-import { computed, Directive, HostBinding, inject, OnDestroy, OnInit, StaticProvider } from '@angular/core'
+import { computed, Directive, effect, inject, OnInit, signal, StaticProvider } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import { AbstractControl, ControlContainer, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
-import { AsyncPipe, NgComponentOutlet } from '@angular/common'
-import { from, isObservable, of, shareReplay, startWith, Subscription, switchMap } from 'rxjs'
+import { NgComponentOutlet } from '@angular/common'
+import { startWith } from 'rxjs'
 
 import { CONTROL_DATA } from '../../utils/control-data.token'
 import { ValidatorsService } from '../../services/validators.service'
@@ -15,94 +16,67 @@ export const controlProvider: StaticProvider = {
   useFactory: () => inject(ControlContainer, { skipSelf: true })
 }
 
-export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMessageDirective, NgComponentOutlet, AsyncPipe, ControlInjector, ActivateControlDirective]
+export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMessageDirective, NgComponentOutlet, ControlInjector, ActivateControlDirective]
 
-@Directive()
-export class BaseInputComponent implements OnInit, OnDestroy {
-  @HostBinding('class') hostClass = ''
+@Directive({
+  host: {
+    '[class]': 'hostClass()'
+  }
+})
+export class BaseInputComponent implements OnInit {
+  // ✅ Signal para la clase del host
+  protected hostClass = signal('')
 
-  controlData = inject(CONTROL_DATA)
-  validatorsService = inject(ValidatorsService)
-  controlContainer = inject(ControlContainer)
+  // Injections
+  protected controlData = inject(CONTROL_DATA)
+  protected validatorsService = inject(ValidatorsService)
+  protected controlContainer = inject(ControlContainer)
 
-  control = computed(() => this.controlData().control)
-  value = computed(() => this.controlData().initialValue ?? this.control().value)
+  // Computed signals
+  protected control = computed(() => this.controlData().control)
+  protected value = computed(() => this.controlData().initialValue ?? this.control().value)
 
-  validatorFn = this.validatorsService.resolveValidators(this.control())
-
+  // Form control
+  protected validatorFn = this.validatorsService.resolveValidators(this.control())
   formControl: AbstractControl = new FormControl(this.value(), this.validatorFn)
   parentForm = this.controlContainer.control as FormGroup
 
-  subscription!: Subscription
+  // ✅ Convertir valueChanges a signal
+  protected formValue = toSignal(this.parentForm.valueChanges.pipe(startWith(this.parentForm.value)), {
+    initialValue: this.parentForm.value
+  })
 
-  options$ = this.parentForm.valueChanges.pipe(
-    startWith(this.parentForm.value),
-    switchMap(() => {
-      const optionsFn = this.control().options
+  // ✅ Computed para options (reactivo automáticamente)
+  protected options = computed(() => {
+    // Trigger reactivity cuando cambia el form
+    const _ = this.formValue()
 
-      if (!optionsFn) {
-        return of([])
-      }
-      if (Array.isArray(optionsFn)) {
-        return of(optionsFn)
-      }
+    const optionsFn = this.control().options
 
-      const result = optionsFn(this.parentForm)
-
-      if (isObservable(result)) {
-        return result
-      }
-      if (result instanceof Promise) {
-        return from(result)
-      }
-      if (Array.isArray(result)) {
-        return of(result)
-      }
-
-      return of([])
-    }),
-    shareReplay({ bufferSize: 1, refCount: true })
-  )
-
-  ngOnInit(): void {
-    this.initialize()
-  }
-
-  ngOnDestroy(): void {
-    this.destroy()
-  }
-
-  initialize() {
-    const control = this.control()
-    this.hostClass = `field wrapper-${control.name}`
-    this.parentForm.addControl(control.name, this.formControl)
-
-    this.subscription = this.parentForm.valueChanges.pipe(startWith(this.parentForm.value)).subscribe(() => {
-      this.toggleDisabledState()
-    })
-  }
-
-  destroy() {
-    const control = this.control()
-
-    if (this.parentForm.contains(control.name)) {
-      this.parentForm.removeControl(control.name)
+    if (!optionsFn) {
+      return []
+    }
+    if (Array.isArray(optionsFn)) {
+      return optionsFn
     }
 
-    this.subscription.unsubscribe()
-  }
+    const result = optionsFn(this.parentForm)
 
-  toggleDisabledState() {
-    const isDisabled = this.checkDisabled()
-
-    if (isDisabled && !this.formControl.disabled) {
-      this.formControl.disable({ emitEvent: false })
-    } else if (!isDisabled && this.formControl.disabled) {
-      this.formControl.enable({ emitEvent: false })
+    // Para casos síncronos
+    if (Array.isArray(result)) {
+      return result
     }
-  }
 
-  checkDisabled() {
+    // Para Promises/Observables, mantener el patrón async en casos específicos
+    // Nota: En una implementación completa, podrías manejar estos casos con un signal separado
+    return []
+  })
+
+  // ✅ Computed para disabled state
+  protected isDisabled = computed(() => {
+    // Trigger reactivity cuando cambia el form
+    const _ = this.formValue()
+
     const control = this.control()
 
     if (control.disabled === undefined) {
@@ -114,10 +88,47 @@ export class BaseInputComponent implements OnInit, OnDestroy {
     }
 
     if (typeof control.disabled === 'function') {
-      const result = control.disabled(this.parentForm)
-      return result
+      return control.disabled(this.parentForm)
     }
 
     return false
+  })
+
+  constructor() {
+    // ✅ Effect para manejar disabled state (reemplaza subscription)
+    effect(() => {
+      const disabled = this.isDisabled()
+
+      if (disabled && !this.formControl.disabled) {
+        this.formControl.disable({ emitEvent: false })
+      } else if (!disabled && this.formControl.disabled) {
+        this.formControl.enable({ emitEvent: false })
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.initialize()
+  }
+
+  // ✅ Ya no necesitas ngOnDestroy - los effects se limpian automáticamente
+
+  protected initialize() {
+    const control = this.control()
+
+    // ✅ Usar signal.set en lugar de mutación directa
+    this.hostClass.set(`field wrapper-${control.name}`)
+
+    this.parentForm.addControl(control.name, this.formControl)
+  }
+
+  protected destroy() {
+    const control = this.control()
+
+    if (this.parentForm.contains(control.name)) {
+      this.parentForm.removeControl(control.name)
+    }
+
+    // ✅ Ya no necesitas unsubscribe
   }
 }

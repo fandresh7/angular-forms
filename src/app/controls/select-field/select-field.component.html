@@ -3,7 +3,7 @@
   [id]="control().name"
   [name]="control().name"
   [formControlName]="control().name">
-  @for (option of options$ | async; track option.value) {
+  @for (option of options(); track option.value) {
     <option
       [value]="option.value"
       [selected]="option.selected"
