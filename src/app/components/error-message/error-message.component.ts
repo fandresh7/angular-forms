@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { KeyValue, KeyValuePipe } from '@angular/common'
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core'
 import { ValidationErrors } from '@angular/forms'
@@ -19,12 +18,12 @@ export class ErrorMessageComponent {
 
   errorsMap = inject(VALIDATION_ERROR_MESSAGES)
 
-  getError(error: KeyValue<string, any>) {
+  getError(error: KeyValue<string, unknown>) {
     if (!this.errorsMap[error.key]) {
       return
     }
 
-    const message = this.errorsMap[error.key](error.value)
+    const message = this.errorsMap[error.key](error.value as Record<string, unknown>)
     return message
   }
 }

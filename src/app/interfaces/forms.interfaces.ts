@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 
 export type ControlType = 'input' | 'group' | 'checkbox' | 'checkbox-group' | 'radio' | 'select' | 'array' | 'multi-select-dropdown' | 'chips-list' | 'autocomplete'
+
+export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'date' | 'time' | 'datetime-local' | 'search'
 
 type CustomValidator = (control: AbstractControl) => ValidationErrors | null
 type ValidatorsKeys = keyof Omit<typeof Validators, 'prototype' | 'compose' | 'composeAsync'>
@@ -17,117 +18,151 @@ export type Items<T> = T[] | ((form: FormGroup) => T[] | Promise<T[]> | Observab
 export type AutocompleteOptions<T> = (form: FormGroup, query: string) => T[] | Promise<T[]> | Observable<T[]>
 
 /**
- * Represents a configuration for a form control within the library.
- *
- * @template T - The type of elements for the `items` property.
+ * Base interface for all form controls with common properties
  */
-export interface Control<T = any> {
-  /**
-   * Unique identifier for the control.
-   */
+export interface BaseControl {
   name: string
-
-  /**
-   * The type of control to render (e.g., 'input', 'group', 'checkbox', etc.).
-   */
   controlType: ControlType
-
-  /**
-   * The display label associated with the control.
-   */
   label?: string
-
-  /**
-   * Supplementary text providing additional information or guidance about the control.
-   */
   helpText?: string
-
-  /**
-   * Specifies the underlying HTML input type or a custom type.
-   */
-  type?: unknown
-
-  /**
-   * The default value assigned to the control.
-   */
-  value?: unknown
-
-  /**
-   * Placeholder text shown when the control is empty.
-   */
-  placeholder?: string
-
-  /**
-   * Options for selection-based controls such as dropdowns or radio groups.
-   * This can be a static array or a function that returns an array (or Promise/Observable).
-   */
-  options?: Options
-
-  /**
-   * Nested form controls, allowing the creation of control groups.
-   */
-  controls?: Control[]
-
-  /**
-   * Validation rules and constraints applied to the control.
-   */
   validators?: ControlValidators
-
-  /**
-   * Controls the visibility of the form element. Can be a boolean or a function evaluating the form state.
-   */
   visible?: Visible
-
-  /**
-   * Determines whether the control is disabled. Can be a boolean or a function evaluating the form state.
-   */
   disabled?: Disabled
-
-  /**
-   * A collection of items to be displayed by the control.
-   * The generic type parameter `T` defines the type for each element in this collection.
-   * This property is applicable only for controls of type `multi-select-dropdown`.
-   */
-  items?: Items<T>
-
-  /**
-   * Specifies the property name to be used as the display label for each item in the `items` array.
-   * This property is applicable only for controls of type `multi-select-dropdown`.
-   */
+  value?: unknown
+  placeholder?: string
+  options?: Options
+  controls?: Control[]
+  type?: InputType
+  items?: Items<unknown>
   itemLabel?: string
-
-  /**
-   * Specifies the property name to be used as the underlying value for each item in the `items` array.
-   * This property is applicable only for controls of type `multi-select-dropdown`.
-   */
   itemValue?: string
-
-  /**
-   * Indicates whether the control supports multiple item selections.
-   * This property only applies to controls of type `multi-select-dropdown`.
-   *
-   * @default true
-   */
   multiple?: boolean
-
-  /**
-   * A function or configuration that provides autocomplete suggestions.
-   *
-   * This property is used exclusively by controls of type `autocomplete` to dynamically fetch or compute
-   * suggestion options based on the user's query. The function receives the current query string and should return
-   * an array of suggestions, a Promise that resolves to an array, or an Observable emitting an array.
-   */
-  autocompleteOptions?: AutocompleteOptions<T>
-
-  /**
-   * An optional array of field names that, when changed, trigger this control to reset.
-   *
-   * This property is useful for cases where the validity or relevance of the control's value depends on one or more
-   * other fields. For example, in an autocomplete control, changing a dependent field (like "country" for a "city" control)
-   * should clear the current selection. Note: The reset behavior implemented using this property is currently
-   * supported only for autocomplete controls.
-   */
+  autocompleteOptions?: AutocompleteOptions<unknown>
   resetOnChange?: string[]
+}
+
+/**
+ * Input control configuration
+ */
+export interface InputControl extends BaseControl {
+  controlType: 'input'
+  type?: InputType
+  value?: string | number
+  placeholder?: string
+}
+
+/**
+ * Checkbox control configuration
+ */
+export interface CheckboxControl extends BaseControl {
+  controlType: 'checkbox'
+  value?: boolean
+}
+
+/**
+ * Radio control configuration
+ */
+export interface RadioControl extends BaseControl {
+  controlType: 'radio'
+  options: Options
+  value?: string | number
+}
+
+/**
+ * Select control configuration
+ */
+export interface SelectControl extends BaseControl {
+  controlType: 'select'
+  options: Options
+  value?: string | number
+}
+
+/**
+ * Checkbox group control configuration
+ */
+export interface CheckboxGroupControl extends BaseControl {
+  controlType: 'checkbox-group'
+  options: Options
+  value?: (string | number)[]
+}
+
+/**
+ * Group control configuration
+ */
+export interface GroupControl extends BaseControl {
+  controlType: 'group'
+  controls: Control[]
+}
+
+/**
+ * Array control configuration
+ */
+export interface ArrayControl extends BaseControl {
+  controlType: 'array'
+  controls: Control[]
+  value?: Record<string, unknown>[]
+}
+
+/**
+ * Chips list control configuration
+ */
+export interface ChipsListControl extends BaseControl {
+  controlType: 'chips-list'
+  value?: string[]
+  placeholder?: string
+}
+
+/**
+ * Multi-select dropdown control configuration
+ */
+export interface MultiSelectDropdownControl<T = unknown> extends BaseControl {
+  controlType: 'multi-select-dropdown'
+  items: Items<T>
+  itemLabel?: string
+  itemValue?: string
+  multiple?: boolean
+  value?: unknown[]
+}
+
+/**
+ * Autocomplete control configuration
+ */
+export interface AutocompleteControl<T = unknown> extends BaseControl {
+  controlType: 'autocomplete'
+  autocompleteOptions: AutocompleteOptions<T>
+  itemLabel?: string
+  itemValue?: string
+  placeholder?: string
+  resetOnChange?: string[]
+  value?: unknown
+}
+
+/**
+ * Union type for all control types
+ */
+export type Control = InputControl | CheckboxControl | RadioControl | SelectControl | CheckboxGroupControl | GroupControl | ArrayControl | ChipsListControl | MultiSelectDropdownControl | AutocompleteControl
+
+/**
+ * Type guards for control types
+ */
+export function isInputControl(control: Control): control is InputControl {
+  return control.controlType === 'input'
+}
+
+export function isGroupControl(control: Control): control is GroupControl {
+  return control.controlType === 'group'
+}
+
+export function isArrayControl(control: Control): control is ArrayControl {
+  return control.controlType === 'array'
+}
+
+export function isMultiSelectControl(control: Control): control is MultiSelectDropdownControl {
+  return control.controlType === 'multi-select-dropdown'
+}
+
+export function isAutocompleteControl(control: Control): control is AutocompleteControl {
+  return control.controlType === 'autocomplete'
 }
 
 /**

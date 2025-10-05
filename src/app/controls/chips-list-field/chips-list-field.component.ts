@@ -10,7 +10,7 @@ import { BaseInputComponent, controlDeps } from '../base-input/base-input.compon
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChipsListFieldComponent extends BaseInputComponent {
-  override formControl = new FormControl<string[]>(Array.isArray(this.value()) ? this.value() : [], this.validatorFn)
+  override formControl = new FormControl<string[]>(Array.isArray(this.value()) ? (this.value() as string[]) : [], this.validatorFn)
 
   inputValue = signal('')
 

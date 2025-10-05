@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core'
 import { SelectionModel } from '@angular/cdk/collections'
 import { OverlayModule } from '@angular/cdk/overlay'
 import { toSignal } from '@angular/core/rxjs-interop'
@@ -6,7 +6,7 @@ import { from, map, Observable, of, switchMap } from 'rxjs'
 import { FormControl } from '@angular/forms'
 
 import { BaseInputComponent, controlDeps } from '../base-input/base-input.component'
-import { Control } from '../../interfaces/forms.interfaces'
+import { isMultiSelectControl, MultiSelectDropdownControl } from '../../interfaces/forms.interfaces'
 
 @Component({
   selector: 'multi-select-dropdown',
@@ -18,13 +18,19 @@ import { Control } from '../../interfaces/forms.interfaces'
     '(click)': 'open()'
   }
 })
-export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
+export class MultiSelectDropdownComponent<T = Record<string, unknown>> extends BaseInputComponent {
   override formControl = new FormControl(Array.isArray(this.value()) ? this.value() : [], this.validatorFn)
 
   items = toSignal(this.getItems(), { initialValue: [] })
 
   isOpen = signal<boolean>(false)
-  selectedOptionsModel = new SelectionModel<T>(this.control().multiple ?? true)
+
+  multipleMode = computed(() => {
+    const ctrl = this.control()
+    return isMultiSelectControl(ctrl) ? (ctrl.multiple ?? true) : true
+  })
+
+  selectedOptionsModel = new SelectionModel<T>(this.multipleMode())
   displayOptions = toSignal(this.selectedOptionsModel.changed.pipe(map(() => this.selectedOptionsModel.selected)), { initialValue: [] })
 
   constructor() {
@@ -52,7 +58,7 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
       })
     } else {
       items.forEach(item => {
-        if (this.compareWithFn(item, formControlValue)) {
+        if (this.compareWithFn(item, String(formControlValue))) {
           this.selectedOptionsModel.select(item)
         }
       })
@@ -62,7 +68,7 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
   getItems(): Observable<T[]> {
     return this.parentForm.valueChanges.pipe(
       switchMap(() => {
-        const control = this.control() as Control<T>
+        const control = this.control() as MultiSelectDropdownControl<T>
         const itemsFn = control.items
 
         if (!itemsFn) {
@@ -83,24 +89,23 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
         if (Array.isArray(result)) {
           return of(result)
         }
-
         return of([])
       })
     )
   }
 
-  displayWithFn(item: T) {
-    const control = this.control() as Control<T>
+  displayWithFn(item: T): string {
+    const control = this.control() as MultiSelectDropdownControl<T>
 
     if (control.itemLabel) {
-      return (item as Record<string, unknown>)[control.itemLabel]
+      return String((item as Record<string, unknown>)[control.itemLabel] ?? '')
     } else {
-      return item as string
+      return String(item)
     }
   }
 
   compareWithFn(item: T, value: string) {
-    const control = this.control() as Control<T>
+    const control = this.control() as MultiSelectDropdownControl<T>
 
     if (control.itemValue) {
       const itemValue = (item as Record<string, unknown>)[control.itemValue]
@@ -111,7 +116,7 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
   }
 
   valueHasChanged(items: T[]) {
-    const control = this.control() as Control<T>
+    const control = this.control() as MultiSelectDropdownControl<T>
 
     const isMultiple = control.multiple !== false
 
@@ -138,7 +143,7 @@ export class MultiSelectDropdownComponent<T> extends BaseInputComponent {
   }
 
   trackByFn(index: number, item: T): unknown {
-    const ctrl = this.control() as Control<T>
+    const ctrl = this.control() as MultiSelectDropdownControl<T>
     return ctrl.itemValue ? (item as Record<string, unknown>)[ctrl.itemValue] : index
   }
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core'
 import { ControlContainer, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { AsyncPipe, NgComponentOutlet } from '@angular/common'
@@ -34,7 +33,7 @@ import { AddItemButtonComponent, RemoveItemButtonComponent } from '../buttons/bu
 })
 export class FieldsComponent {
   controls = input.required<Control[]>()
-  data = input<any>()
+  data = input<Record<string, unknown> | null>()
 
   fb = inject(FormBuilder)
   controlResolver = inject(ControlResolver)

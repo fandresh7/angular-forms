@@ -5,10 +5,10 @@ import { FormControl } from '@angular/forms'
 import { OverlayModule } from '@angular/cdk/overlay'
 
 import { from, Observable, of, Subscription } from 'rxjs'
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators'
 
 import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
-import { Control } from '../../interfaces/forms.interfaces'
+import { AutocompleteControl } from '../../interfaces/forms.interfaces'
 
 @Component({
   selector: 'autocomplete-field',
@@ -29,34 +29,29 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
   suggestions$: Observable<T[]> = this.queryControl.valueChanges.pipe(
     startWith(this.queryControl.value),
     debounceTime(300),
-    tap(() => this.loading.set(true)),
     map(query => query || ''),
     distinctUntilChanged(),
     switchMap((query: string) => {
       const ctrl = this.control()
       if (!ctrl.autocompleteOptions) {
-        return of([])
+        return of([]) as Observable<T[]>
       }
 
       const result = ctrl.autocompleteOptions(this.parentForm, query)
 
-      if (result instanceof Observable) {
-        return result
-      }
       if (result instanceof Promise) {
-        return from(result)
+        return from(result) as Observable<T[]>
       }
       if (Array.isArray(result)) {
-        return of(result)
+        return of(result) as Observable<T[]>
       }
 
-      return of([])
+      return of([]) as Observable<T[]>
     })
-    // tap(() => this.loading.set(false))
   )
 
   displayWithFn(item: T): string {
-    const control = this.control() as Control<T>
+    const control = this.control() as AutocompleteControl<T>
 
     if (control.itemLabel) {
       const label = (item as Record<string, unknown>)[control.itemLabel]
@@ -67,7 +62,7 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
   }
 
   selectOption(option: T): void {
-    const ctrl = this.control() as Control<T>
+    const ctrl = this.control() as AutocompleteControl<T>
     const valueToStore = ctrl.itemValue ? (option as Record<string, unknown>)[ctrl.itemValue] : option
 
     this.formControl.setValue(valueToStore)
@@ -77,7 +72,7 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
   }
 
   isSelected(option: T): boolean {
-    const ctrl = this.control() as Control<T>
+    const ctrl = this.control() as AutocompleteControl<T>
     const value = this.formControl.value
 
     const optionValue = ctrl.itemValue ? (option as Record<string, unknown>)[ctrl.itemValue] : option
@@ -97,7 +92,7 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
   }
 
   trackByFn(index: number, item: T): unknown {
-    const ctrl = this.control() as Control<T>
+    const ctrl = this.control() as AutocompleteControl<T>
     return ctrl.itemValue ? (item as Record<string, unknown>)[ctrl.itemValue] : index
   }
 
@@ -105,9 +100,9 @@ export class AutocompleteFieldComponent<T> extends BaseInputComponent implements
     this.initialize()
 
     // If the control configuration has a 'resetOnChange' array, subscribe to each dependency.
-    const ctrl = this.control() as Control<T>
+    const ctrl = this.control() as AutocompleteControl<T>
     if (ctrl.resetOnChange && Array.isArray(ctrl.resetOnChange)) {
-      ctrl.resetOnChange.forEach(depName => {
+      ctrl.resetOnChange.forEach((depName: string) => {
         const depControl = this.parentForm.get(depName)
         if (depControl) {
           const sub = depControl.valueChanges.pipe(distinctUntilChanged()).subscribe(() => {

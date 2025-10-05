@@ -2,9 +2,9 @@
 <input
   [id]="control().name"
   [name]="control().name"
-  [type]="control().type || 'text'"
+  [type]="inputType()"
   [formControlName]="control().name"
-  [placeholder]="control().placeholder ?? ''"
+  [placeholder]="inputPlaceholder()"
   autocomplete="off" />
 
 <div class="validation-feedback">
