@@ -57,7 +57,7 @@ module.exports = tseslint.config(
       // ✅ Template best practices
       "@angular-eslint/template/prefer-control-flow": "error",
       "@angular-eslint/template/prefer-self-closing-tags": "error",
-      "@angular-eslint/template/no-call-expression": "warn",
+      "@angular-eslint/template/no-call-expression": "off",
       "@angular-eslint/template/use-track-by-function": "error"
     }
   }
