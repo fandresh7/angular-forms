@@ -9,7 +9,9 @@ A powerful, type-safe, and highly customizable dynamic form system built with An
 - ✅ **Reactive with Signals** - Built with Angular Signals for optimal performance
 - ✅ **Dynamic Validation** - Configurable validators with custom error messages
 - ✅ **Nested Forms** - Support for complex nested and array structures
-- ✅ **Theming System** - CSS custom properties for easy customization
+- ✅ **Settings-Based Styling** - Centralized configuration system for complete customization
+- ✅ **CSS Framework Agnostic** - Use any CSS framework (Tailwind, Bootstrap, custom CSS, etc.)
+- ✅ **Custom Icons** - Built-in SVG icon components with full customization support
 - ✅ **Accessibility** - ARIA attributes and keyboard navigation
 - ✅ **Zero Memory Leaks** - Automatic cleanup with modern Angular patterns
 
@@ -22,7 +24,7 @@ A powerful, type-safe, and highly customizable dynamic form system built with An
 - [Basic Usage](#basic-usage)
 - [Advanced Features](#advanced-features)
 - [Validation](#validation)
-- [Theming](#theming)
+- [Styling & Customization](#styling--customization)
 - [API Reference](#api-reference)
 
 ---
@@ -389,40 +391,221 @@ providers: [
 
 ---
 
-## 🎨 Theming
+## 🎨 Styling & Customization
 
-### Using CSS Custom Properties
+### Settings System
 
-```css
-:root {
-  /* Colors */
-  --form-primary-color: #2196f3;
-  --form-error-color: #f44336;
-  --form-success-color: #4caf50;
+The form system uses a centralized `Settings` configuration that allows you to customize every aspect of your forms using CSS classes from any framework or custom CSS.
 
-  /* Input */
-  --form-input-bg: #ffffff;
-  --form-input-border: #e0e0e0;
-  --form-input-focus-border: var(--form-primary-color);
+### Providing Custom Settings
 
-  /* Typography */
-  --form-font-family: 'Roboto', sans-serif;
-  --form-font-size: 14px;
+```typescript
+import { SETTINGS } from './utils/settings.token'
+import { Settings } from './interfaces/settings.interfaces'
 
-  /* Spacing */
-  --form-spacing: 16px;
-  --form-border-radius: 4px;
+// Define your custom settings
+export const mySettings: Settings = {
+  labelClasses: 'my-label-class',
+  inputClasses: 'my-input-class',
+  errorClasses: 'my-error-class',
+  // ... more settings
+}
+
+// Provide in your component or app config
+@Component({
+  providers: [
+    {
+      provide: SETTINGS,
+      useValue: mySettings
+    }
+  ]
+})
+```
+
+### Settings Interface
+
+```typescript
+interface Settings {
+  // Global classes
+  wrapperClasses?: string // Wrapper around each field
+  labelClasses?: string // Label styling
+  errorClasses?: string // Error message styling
+  helpTextClasses?: string // Help text styling
+  inputClasses?: string // Input field styling
+
+  // Array controls
+  legendClasses?: string
+  arrayControlRemoveButtonClasses?: string
+  arrayControlAddButtonClasses?: string
+  arrayControlRemoveButtonLabel?: string
+  arrayControlAddButtonLabel?: string
+  arrayControlRemoveButtonIcon?: Type<unknown>
+  arrayControlAddButtonIcon?: Type<unknown>
+  arrayControlRemoveButtonIconClasses?: string
+  arrayControlAddButtonIconClasses?: string
+
+  // Multi-select controls
+  multiSelectControlRemoveButtonClasses?: string
+  multiSelectControlRemoveButtonIcon?: Type<unknown>
+  multiselectDropdownClasses?: string
+  multiselectDropdownItemClasses?: string
+  multiselectDropdownItemSelectedClasses?: string
+  multiSelectEmptyText?: string
+
+  // Chips list controls
+  chipslistContainerClasses?: string
+  chipslistChipClasses?: string
+  chipslistInputClasses?: string
+  chipslistRemoveButtonClasses?: string
+  chipslistAddButtonClasses?: string
+
+  // Autocomplete controls
+  autocompleteInputClasses?: string
+  autocompleteDropdownClasses?: string
+  autocompleteDropdownItemClasses?: string
+  autocompleteDropdownItemSelectedClasses?: string
+  autocompleteLoadingText?: string
+  autocompleteLoadingIcon?: Type<unknown>
+  autocompleteLoadingIconClasses?: string
 }
 ```
 
-### Dark Theme Example
+### Example with Bootstrap
+
+```typescript
+export const bootstrapSettings: Settings = {
+  labelClasses: 'form-label',
+  inputClasses: 'form-control',
+  errorClasses: 'invalid-feedback d-block',
+  helpTextClasses: 'form-text',
+
+  arrayControlAddButtonClasses: 'btn btn-success btn-sm',
+  arrayControlRemoveButtonClasses: 'btn btn-danger btn-sm',
+
+  multiselectDropdownClasses: 'dropdown-menu show',
+  multiselectDropdownItemClasses: 'dropdown-item'
+}
+```
+
+### Example with Custom CSS
+
+```typescript
+export const customSettings: Settings = {
+  labelClasses: 'field-label',
+  inputClasses: 'field-input',
+  errorClasses: 'field-error',
+
+  arrayControlAddButtonClasses: 'btn-add',
+  arrayControlRemoveButtonClasses: 'btn-remove'
+}
+```
 
 ```css
-[data-theme='dark'] {
-  --form-input-bg: #2c2c2c;
-  --form-input-border: #444;
-  --form-input-color: #fff;
-  --form-label-color: #e0e0e0;
+/* Your custom CSS */
+.field-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.field-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.field-error {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+```
+
+### Built-in Icon Components
+
+The system includes three built-in SVG icon components:
+
+- **RoundedPlusIcon** - For add buttons
+- **RoundedMinusIcon** - For remove buttons
+- **XIcon** - For close/delete actions
+
+All icons use `currentColor` to inherit text color and are fully responsive.
+
+### Creating Custom Icons
+
+```typescript
+import { Component, ChangeDetectionStrategy } from '@angular/core'
+
+@Component({
+  selector: 'my-custom-icon',
+  template: `<svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 24 24">
+    <path
+      d="..."
+      fill="currentColor" />
+  </svg>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class MyCustomIcon {}
+
+// Use in settings
+export const settings: Settings = {
+  arrayControlAddButtonIcon: MyCustomIcon,
+  arrayControlAddButtonIconClasses: 'icon-size-md'
+}
+```
+
+### Complete Settings Example
+
+```typescript
+import { RoundedPlusIcon, RoundedMinusIcon, XIcon } from './data/settings'
+
+export const myFormSettings: Settings = {
+  // Global
+  wrapperClasses: 'form-field',
+  labelClasses: 'form-label',
+  errorClasses: 'form-error',
+  helpTextClasses: 'form-help',
+  inputClasses: 'form-input',
+
+  // Array controls
+  legendClasses: 'form-legend',
+  arrayControlAddButtonClasses: 'btn btn-add',
+  arrayControlAddButtonLabel: 'Add Item',
+  arrayControlAddButtonIcon: RoundedPlusIcon,
+  arrayControlAddButtonIconClasses: 'icon-sm',
+  arrayControlRemoveButtonClasses: 'btn btn-remove',
+  arrayControlRemoveButtonLabel: 'Remove',
+  arrayControlRemoveButtonIcon: RoundedMinusIcon,
+  arrayControlRemoveButtonIconClasses: 'icon-sm',
+
+  // Multi-select
+  multiSelectEmptyText: 'No items selected',
+  multiselectDropdownClasses: 'dropdown-panel',
+  multiselectDropdownItemClasses: 'dropdown-item',
+  multiselectDropdownItemSelectedClasses: 'dropdown-item-selected',
+  multiSelectControlRemoveButtonIcon: XIcon,
+
+  // Autocomplete
+  autocompleteInputClasses: 'form-input autocomplete-input',
+  autocompleteDropdownClasses: 'autocomplete-dropdown',
+  autocompleteDropdownItemClasses: 'autocomplete-item',
+  autocompleteLoadingText: 'Loading...',
+
+  // Chips
+  chipslistContainerClasses: 'chips-container',
+  chipslistChipClasses: 'chip',
+  chipslistInputClasses: 'chip-input'
 }
 ```
 
@@ -594,10 +777,15 @@ src/app/
 │   └── validator-message.directive.ts
 ├── interfaces/
 │   └── forms.interfaces.ts  # Type definitions
+├── data/
+│   └── settings.ts          # Default settings & icon components
 ├── services/
-│   ├── control-resolver.service.ts
-│   └── validators.service.ts
+│   └── control-resolver.service.ts
+├── interfaces/
+│   ├── forms.interfaces.ts  # Form control types
+│   └── settings.interfaces.ts # Settings interface
 └── utils/
+    ├── settings.token.ts    # Settings injection token
     └── validation-error-messages.token.ts
 ```
 
