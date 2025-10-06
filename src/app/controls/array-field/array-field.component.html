@@ -4,7 +4,9 @@
   }
 
   @for (group of formControl.controls; track group; let i = $index) {
-    <div [formGroupName]="i">
+    <div
+      [formGroupName]="i"
+      [class]="settings.arrayItemContainerClasses">
       @for (ctrl of control().controls; track ctrl.name) {
         <ng-container
           *activateControl="ctrl"

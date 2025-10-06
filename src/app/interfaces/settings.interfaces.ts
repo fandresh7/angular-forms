@@ -30,6 +30,7 @@ export interface Settings {
   groupLegendClasses?: string
   // Array controls
   legendClasses?: string
+  arrayItemContainerClasses?: string
   arrayControlRemoveButtonClasses?: string
   arrayControlAddButtonClasses?: string
   arrayControlRemoveButtonLabel?: string

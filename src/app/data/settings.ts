@@ -77,7 +77,7 @@ export const settings: Settings = {
   helpTextClasses: 'text-xs text-gray-500 italic',
   inputClasses:
     'w-full px-4 py-2.5 text-sm border border-gray-200 rounded-lg bg-white shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent hover:border-gray-300 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed',
-  validationFeedbackClasses: 'mt-1.5',
+  validationFeedbackClasses: 'validation-feedback',
   // Select controls
   selectClasses:
     'w-full px-4 py-2.5 text-sm border border-gray-200 rounded-lg bg-white shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent hover:border-gray-300 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed appearance-none cursor-pointer',
@@ -100,6 +100,7 @@ export const settings: Settings = {
   groupLegendClasses: 'text-base font-bold text-gray-800 px-3 bg-white',
   // Array controls
   legendClasses: 'block text-base font-bold text-gray-800 mb-4',
+  arrayItemContainerClasses: 'mb-4 p-4 border-2 border-gray-200 rounded-xl bg-white flex gap-2 items-center',
   arrayControlRemoveButtonClasses:
     'inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-red-600 hover:text-white bg-white hover:bg-red-500 border-2 border-red-200 hover:border-red-500 rounded-lg transition-all duration-200 shadow-sm hover:shadow',
   arrayControlAddButtonClasses: 'mt-4 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg',
