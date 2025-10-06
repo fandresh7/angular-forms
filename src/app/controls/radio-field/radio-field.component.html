@@ -1,5 +1,9 @@
-<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
-<label>{{ control().label }}</label>
+<label
+  [class]="settings.labelClasses"
+  [for]="control().name">
+  {{ control().label }}
+</label>
+
 <div>
   @for (option of options(); track option.value) {
     <label>

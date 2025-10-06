@@ -1,21 +1,36 @@
-<label [attr.for]="control().name">
+<label
+  [class]="settings.labelClasses"
+  [attr.for]="control().name">
   {{ control().label }}
 </label>
 
-<div class="chips-container">
+<div [class]="settings.chipslistContainerClasses">
   @for (chip of formControl.value; track $index) {
-    <div class="chip">
+    <div [class]="settings.chipslistChipClasses">
       {{ chip }}
       <button
         type="button"
+        [class]="settings.chipslistRemoveButtonClasses"
         (click)="removeChip(chip)">
-        x
+        @if (settings.chipslistRemoveButtonIcon) {
+          <div [class]="settings.chipslistRemoveButtonIconClasses">
+            <ng-container [ngComponentOutlet]="settings.chipslistRemoveButtonIcon" />
+          </div>
+        }
+        @if (settings.chipslistRemoveButtonLabel) {
+          <span [class]="settings.chipslistRemoveButtonLabelClasses">
+            {{ settings.chipslistRemoveButtonLabel }}
+          </span>
+        }
       </button>
     </div>
   }
+</div>
 
+<div>
   <input
     [id]="control().name"
+    [class]="settings.chipslistInputClasses"
     [name]="control().name"
     [placeholder]="control().placeholder ?? ''"
     [value]="inputValue()"
@@ -24,9 +39,19 @@
     aria-label="Add new chip" />
   <button
     type="button"
+    [class]="settings.chipslistAddButtonClasses"
     aria-label="Add chip"
     (click)="addChip()">
-    Add
+    @if (settings.chipslistAddButtonIcon) {
+      <div [class]="settings.chipslistAddButtonIconClasses">
+        <ng-container [ngComponentOutlet]="settings.chipslistAddButtonIcon" />
+      </div>
+    }
+    @if (settings.chipslistAddButtonLabel) {
+      <span [class]="settings.chipslistAddButtonLabelClasses">
+        {{ settings.chipslistAddButtonLabel }}
+      </span>
+    }
   </button>
 </div>
 

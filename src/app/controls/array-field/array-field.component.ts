@@ -4,7 +4,6 @@ import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms'
 
 import { BaseInputComponent, controlDeps, controlProvider } from '../base-input/base-input.component'
 import { ControlResolver } from '../../services/control-resolver.service'
-import { ADD_REMOVE_BUTTONS } from '../../utils/add-remove-buttons.token'
 import { isArrayControl } from '../../interfaces/forms.interfaces'
 
 @Component({
@@ -15,8 +14,6 @@ import { isArrayControl } from '../../interfaces/forms.interfaces'
   viewProviders: [controlProvider]
 })
 export class ArrayFieldComponent extends BaseInputComponent implements OnInit {
-  buttons = inject(ADD_REMOVE_BUTTONS)
-
   controlResolver = inject(ControlResolver)
   fb = inject(NonNullableFormBuilder)
 

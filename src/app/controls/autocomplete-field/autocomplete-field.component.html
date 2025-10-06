@@ -1,21 +1,34 @@
-<label [attr.for]="control().name">
+<label
+  [class]="settings.labelClasses"
+  [attr.for]="control().name">
   {{ control().label }}
 </label>
 
-<input
-  #origin
-  [id]="control().name"
-  [name]="control().name"
-  [placeholder]="control().placeholder ?? ''"
-  [formControl]="queryControl"
-  (focus)="open()"
-  autocomplete="off"
-  [attr.aria-expanded]="isOpen() ? 'true' : 'false'"
-  aria-controls="autocomplete-list" />
+<div class="relative">
+  <input
+    #origin
+    [id]="control().name"
+    [name]="control().name"
+    [class]="settings.autocompleteInputClasses"
+    [placeholder]="control().placeholder ?? ''"
+    [formControl]="queryControl"
+    (focus)="open()"
+    autocomplete="off"
+    [attr.aria-expanded]="isOpen() ? 'true' : 'false'"
+    aria-controls="autocomplete-list" />
 
-@if (loading()) {
-  <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px">loading</div>
-}
+  @if (loading()) {
+    <div [class]="settings.autocompleteLoadingWrapperClasses">
+      @if (settings.autocompleteLoadingIcon) {
+        <div [class]="settings.autocompleteLoadingIconClasses">
+          <ng-container [ngComponentOutlet]="settings.autocompleteLoadingIcon" />
+        </div>
+      } @else {
+        <span [class]="settings.autocompleteLoadingTextClasses">{{ settings.autocompleteLoadingText }}</span>
+      }
+    </div>
+  }
+</div>
 
 <!-- CDK Connected Overlay for suggestions dropdown -->
 <ng-template
@@ -27,13 +40,13 @@
   (backdropClick)="close()"
   (detach)="close()">
   <div
-    class="autocomplete-dropdown"
+    [class]="settings.autocompleteDropdownClasses"
     role="listbox"
     aria-live="assertive"
     id="autocomplete-list">
     @for (option of suggestions$ | async; track trackByFn($index, option)) {
       <div
-        class="autocomplete-option"
+        [class]="[settings.autocompleteDropdownItemClasses, isSelected(option) ? settings.autocompleteDropdownItemSelectedClasses : '']"
         tabindex="0"
         (click)="selectOption(option)"
         (keyup)="selectOption(option)"

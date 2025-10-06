@@ -1,5 +1,11 @@
-<label [for]="control().name">{{ control().label }}</label>
+<label
+  [class]="settings.labelClasses"
+  [for]="control().name">
+  {{ control().label }}
+</label>
+
 <input
+  [class]="settings.inputClasses"
   [id]="control().name"
   [name]="control().name"
   [type]="inputType()"

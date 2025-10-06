@@ -2,21 +2,23 @@ import { KeyValue, KeyValuePipe } from '@angular/common'
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core'
 import { ValidationErrors } from '@angular/forms'
 import { VALIDATION_ERROR_MESSAGES } from '../../utils/validation-error-messages.token'
+import { SETTINGS } from '../../utils/settings.token'
 
 @Component({
   selector: 'error-message',
   imports: [KeyValuePipe],
   template: `
     @for (error of errors() | keyvalue; track error.key) {
-      <p style="margin: 0">{{ getError(error) }}</p>
+      <p [class]="settings.errorClasses">{{ getError(error) }}</p>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorMessageComponent {
-  errors = input<ValidationErrors>()
-
+  settings = inject(SETTINGS)
   errorsMap = inject(VALIDATION_ERROR_MESSAGES)
+
+  errors = input<ValidationErrors>()
 
   getError(error: KeyValue<string, unknown>) {
     if (!this.errorsMap[error.key]) {

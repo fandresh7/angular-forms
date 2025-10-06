@@ -1,10 +1,13 @@
-<form
-  [formGroup]="form"
-  (submit)="submit()"
-  autocomplete="off">
-  <fields
-    [controls]="controls()"
-    [data]="data" />
+<div class="max-w-2xl p-4 mx-auto">
+  <form
+    [formGroup]="form"
+    (submit)="submit()"
+    autocomplete="off">
+    <fields
+      class="flex flex-col gap-4"
+      [controls]="controls()"
+      [data]="data" />
 
-  <button type="submit">Enviar</button>
-</form>
+    <button type="submit">Enviar</button>
+  </form>
+</div>

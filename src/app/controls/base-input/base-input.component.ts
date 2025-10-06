@@ -10,6 +10,7 @@ import { ValidatorMessageDirective } from '../../directives/validator-message.di
 import { ControlInjector } from '../../pipes/control-injector.pipe'
 import { HelpTextDirective } from '../../directives/help-text.directive'
 import { ActivateControlDirective } from '../../directives/activate-control.directive'
+import { SETTINGS } from '../../utils/settings.token'
 
 export const controlProvider: StaticProvider = {
   provide: ControlContainer,
@@ -24,7 +25,8 @@ export const controlDeps = [ReactiveFormsModule, HelpTextDirective, ValidatorMes
   }
 })
 export class BaseInputComponent implements OnInit {
-  // ✅ Signal para la clase del host
+  settings = inject(SETTINGS)
+
   protected hostClass = signal('')
 
   // Injections
@@ -41,14 +43,11 @@ export class BaseInputComponent implements OnInit {
   formControl: AbstractControl = new FormControl(this.value(), this.validatorFn)
   parentForm = this.controlContainer.control as FormGroup
 
-  // ✅ Convertir valueChanges a signal
   protected formValue = toSignal(this.parentForm.valueChanges.pipe(startWith(this.parentForm.value)), {
     initialValue: this.parentForm.value
   })
 
-  // ✅ Computed para options (reactivo automáticamente)
   protected options = computed(() => {
-    // Trigger reactivity cuando cambia el form
     const _ = this.formValue()
 
     const optionsFn = this.control().options
@@ -56,25 +55,21 @@ export class BaseInputComponent implements OnInit {
     if (!optionsFn) {
       return []
     }
+
     if (Array.isArray(optionsFn)) {
       return optionsFn
     }
 
     const result = optionsFn(this.parentForm)
 
-    // Para casos síncronos
     if (Array.isArray(result)) {
       return result
     }
 
-    // Para Promises/Observables, mantener el patrón async en casos específicos
-    // Nota: En una implementación completa, podrías manejar estos casos con un signal separado
     return []
   })
 
-  // ✅ Computed para disabled state
   protected isDisabled = computed(() => {
-    // Trigger reactivity cuando cambia el form
     const _ = this.formValue()
 
     const control = this.control()
@@ -95,7 +90,6 @@ export class BaseInputComponent implements OnInit {
   })
 
   constructor() {
-    // ✅ Effect para manejar disabled state (reemplaza subscription)
     effect(() => {
       const disabled = this.isDisabled()
 
@@ -111,13 +105,12 @@ export class BaseInputComponent implements OnInit {
     this.initialize()
   }
 
-  // ✅ Ya no necesitas ngOnDestroy - los effects se limpian automáticamente
-
   protected initialize() {
     const control = this.control()
 
-    // ✅ Usar signal.set en lugar de mutación directa
-    this.hostClass.set(`field wrapper-${control.name}`)
+    const classes = this.settings.wrapperClasses ?? `field wrapper-${control.name}`
+
+    this.hostClass.set(classes)
 
     this.parentForm.addControl(control.name, this.formControl)
   }
@@ -128,7 +121,5 @@ export class BaseInputComponent implements OnInit {
     if (this.parentForm.contains(control.name)) {
       this.parentForm.removeControl(control.name)
     }
-
-    // ✅ Ya no necesitas unsubscribe
   }
 }

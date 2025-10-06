@@ -1,20 +1,32 @@
-<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
-<label>{{ control().label }}</label>
+<label
+  [class]="settings.labelClasses"
+  [attr.for]="control().name">
+  {{ control().label }}
+</label>
+
 <div
   cdkOverlayOrigin
   #origin="cdkOverlayOrigin">
-  <div class="displayed-container">
+  <div>
     @if (displayOptions().length === 0) {
-      <span>Nothing is selected...</span>
+      <span>{{ settings.multiSelectEmptyText }}</span>
     } @else {
-      <div class="displayed-options">
+      <div [class]="settings.multiSelectDisplayedOptionsClasses">
         @for (option of displayOptions(); track trackByFn($index, option)) {
-          <div class="displayed-option">
+          <div [class]="settings.multiSelectDisplayedOptionClasses">
             <span>{{ displayWithFn(option) }}</span>
             <button
               type="button"
+              [class]="settings.multiSelectControlRemoveButtonClasses"
               (click)="deselectOption($event, option)">
-              x
+              @if (settings.multiSelectControlRemoveButtonIcon) {
+                <div [class]="settings.multiSelectControlRemoveButtonIconClasses">
+                  <ng-container [ngComponentOutlet]="settings.multiSelectControlRemoveButtonIcon" />
+                </div>
+              }
+              @if (settings.multiSelectControlRemoveButtonLabel) {
+                {{ settings.multiSelectControlRemoveButtonLabel }}
+              }
             </button>
           </div>
         }
@@ -31,14 +43,15 @@
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   (backdropClick)="close()"
   (detach)="close()">
-  <div class="dropdown">
+  <div [class]="settings.multiselectDropdownClasses">
     @for (option of items(); track trackByFn($index, option)) {
-      <div>
-        <label>
+      <div [class]="[settings.multiselectDropdownItemClasses, selectedOptionsModel.isSelected(option) ? settings.multiselectDropdownItemSelectedClasses : '']">
+        <label class="flex items-center gap-2 cursor-pointer">
           <input
             [id]="control().name + '-option-' + $index"
             [name]="control().name + '-option-' + $index"
             type="checkbox"
+            class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             [checked]="selectedOptionsModel.isSelected(option)"
             (change)="toggleSelection(option)"
             [attr.aria-checked]="selectedOptionsModel.isSelected(option) ? 'true' : 'false'"

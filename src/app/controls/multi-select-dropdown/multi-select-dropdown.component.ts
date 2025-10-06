@@ -12,7 +12,6 @@ import { isMultiSelectControl, MultiSelectDropdownControl } from '../../interfac
   selector: 'multi-select-dropdown',
   imports: [...controlDeps, OverlayModule],
   templateUrl: './multi-select-dropdown.component.html',
-  styleUrl: './multi-select-dropdown.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '(click)': 'open()'

@@ -6,8 +6,6 @@ import { ControlInjector } from '../../pipes/control-injector.pipe'
 import { Control } from '../../interfaces/forms.interfaces'
 import { ControlResolver } from '../../services/control-resolver.service'
 import { ActivateControlDirective } from '../../directives/activate-control.directive'
-import { ADD_REMOVE_BUTTONS } from '../../utils/add-remove-buttons.token'
-import { AddItemButtonComponent, RemoveItemButtonComponent } from '../buttons/buttons.component'
 
 @Component({
   selector: 'fields',
@@ -20,15 +18,6 @@ import { AddItemButtonComponent, RemoveItemButtonComponent } from '../buttons/bu
         [ngComponentOutletInjector]="control | controlInjector: data()" />
     }
   `,
-  providers: [
-    {
-      provide: ADD_REMOVE_BUTTONS,
-      useFactory: () => ({
-        add: AddItemButtonComponent,
-        remove: RemoveItemButtonComponent
-      })
-    }
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FieldsComponent {

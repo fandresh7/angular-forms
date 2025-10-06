@@ -1,5 +1,7 @@
 <fieldset [formArrayName]="control().name">
-  <legend>{{ control().label }}</legend>
+  @if (control().label) {
+    <legend [class]="settings.legendClasses">{{ control().label }}</legend>
+  }
 
   @for (group of formControl.controls; track group; let i = $index) {
     <div [formGroupName]="i">
@@ -11,25 +13,39 @@
       }
 
       <button
-        class="remove-button"
+        [class]="settings.arrayControlRemoveButtonClasses"
         role="button"
         tabindex="0"
         type="button"
         (click)="removeItem(i)"
         (keydown.enter)="removeItem(i)">
-        <ng-container *ngComponentOutlet="buttons.remove" />
+        @if (settings.arrayControlRemoveButtonIcon) {
+          <div [class]="settings.arrayControlRemoveButtonIconClasses">
+            <ng-container *ngComponentOutlet="settings.arrayControlRemoveButtonIcon" />
+          </div>
+        }
+        @if (settings.arrayControlRemoveButtonLabel) {
+          <span>{{ settings.arrayControlRemoveButtonLabel }}</span>
+        }
       </button>
     </div>
   }
 
   <button
-    class="add-button"
+    [class]="settings.arrayControlAddButtonClasses"
     role="button"
     tabindex="0"
     type="button"
     (click)="addItem()"
     (keydown.enter)="addItem()">
-    <ng-container *ngComponentOutlet="buttons.add" />
+    @if (settings.arrayControlAddButtonIcon) {
+      <div [class]="settings.arrayControlAddButtonIconClasses">
+        <ng-container *ngComponentOutlet="settings.arrayControlAddButtonIcon" />
+      </div>
+    }
+    @if (settings.arrayControlAddButtonLabel) {
+      <span>{{ settings.arrayControlAddButtonLabel }}</span>
+    }
   </button>
 </fieldset>
 

@@ -5,6 +5,8 @@ import { Control } from './interfaces/forms.interfaces'
 import { example } from './data/example'
 import { FieldsComponent } from './components/fields/fields.component'
 import { SPANISH_ERROR_MESSAGES, VALIDATION_ERROR_MESSAGES } from './utils/validation-error-messages.token'
+import { SETTINGS } from './utils/settings.token'
+import { settings } from './data/settings'
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,10 @@ import { SPANISH_ERROR_MESSAGES, VALIDATION_ERROR_MESSAGES } from './utils/valid
     {
       provide: VALIDATION_ERROR_MESSAGES,
       useValue: SPANISH_ERROR_MESSAGES
+    },
+    {
+      provide: SETTINGS,
+      useValue: settings
     }
   ]
 })
