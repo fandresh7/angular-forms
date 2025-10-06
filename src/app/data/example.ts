@@ -111,7 +111,10 @@ export const example: Control[] = [
       {
         label: 'Is Completed?',
         name: 'is-completed',
-        controlType: 'checkbox'
+        controlType: 'checkbox',
+        validators: {
+          requiredTrue: true
+        }
       }
     ]
   },
