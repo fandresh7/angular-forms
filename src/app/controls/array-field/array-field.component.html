@@ -49,6 +49,6 @@
   </button>
 </fieldset>
 
-<div class="validation-feedback">
+<div [class]="settings.validationFeedbackClasses">
   <ng-container [helpMessage]="control().helpText" />
 </div>

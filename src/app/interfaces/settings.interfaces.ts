@@ -7,6 +7,27 @@ export interface Settings {
   errorClasses?: string
   helpTextClasses?: string
   inputClasses?: string
+  validationFeedbackClasses?: string
+  // Select controls
+  selectClasses?: string
+  selectOptionClasses?: string
+  // Checkbox controls
+  checkboxWrapperClasses?: string
+  checkboxInputClasses?: string
+  checkboxLabelTextClasses?: string
+  // Checkbox Group controls
+  checkboxGroupContainerClasses?: string
+  checkboxGroupItemWrapperClasses?: string
+  checkboxGroupItemInputClasses?: string
+  checkboxGroupItemLabelClasses?: string
+  // Radio controls
+  radioGroupContainerClasses?: string
+  radioItemWrapperClasses?: string
+  radioItemInputClasses?: string
+  radioItemLabelClasses?: string
+  // Group controls
+  groupContainerClasses?: string
+  groupLegendClasses?: string
   // Array controls
   legendClasses?: string
   arrayControlRemoveButtonClasses?: string

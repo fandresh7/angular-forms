@@ -5,12 +5,13 @@
 </label>
 
 <select
-  [class]="settings.inputClasses"
+  [class]="settings.selectClasses || settings.inputClasses"
   [id]="control().name"
   [name]="control().name"
   [formControlName]="control().name">
   @for (option of options(); track option.value) {
     <option
+      [class]="settings.selectOptionClasses"
       [value]="option.value"
       [selected]="option.selected"
       [disabled]="option.disabled">
@@ -19,7 +20,7 @@
   }
 </select>
 
-<div class="validation-feedback">
+<div [class]="settings.validationFeedbackClasses">
   <ng-container
     ngDefaultControl
     validatorMessage

@@ -1,8 +1,13 @@
-<div [formGroupName]="control().name">
+<fieldset
+  [class]="settings.groupContainerClasses"
+  [formGroupName]="control().name">
+  @if (control().label) {
+    <legend [class]="settings.groupLegendClasses">{{ control().label }}</legend>
+  }
   @for (control of controls(); track control.name) {
     <ng-container
       *activateControl="control"
       [ngComponentOutlet]="controlResolver.resolve(control) | async"
       [ngComponentOutletInjector]="control | controlInjector: groupValue()" />
   }
-</div>
+</fieldset>

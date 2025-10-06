@@ -84,9 +84,9 @@ export const example: Control[] = [
   {
     label: 'Animals',
     name: 'animals',
-    // controlType: 'checkbox-group',
-    controlType: 'radio',
-    // value: ['oso', 'caballo'],
+    controlType: 'checkbox-group',
+    // controlType: 'radio',
+    value: ['oso', 'caballo'],
     options: [
       { label: 'Oso', value: 'oso', disabled: true },
       { label: 'Perro', value: 'perro' },

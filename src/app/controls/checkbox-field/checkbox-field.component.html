@@ -1,14 +1,15 @@
-<label>
+<label [class]="settings.checkboxWrapperClasses">
   <input
     [id]="control().name"
     [name]="control().name"
+    [class]="settings.checkboxInputClasses"
     type="checkbox"
     [attr.aria-checked]="formControl.value ? 'true' : 'false'"
     [formControlName]="control().name" />
-  {{ control().label }}
+  <span [class]="settings.checkboxLabelTextClasses">{{ control().label }}</span>
 </label>
 
-<div class="validation-feedback">
+<div [class]="settings.validationFeedbackClasses">
   <ng-container
     ngDefaultControl
     validatorMessage

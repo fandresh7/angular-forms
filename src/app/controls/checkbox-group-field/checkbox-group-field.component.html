@@ -4,22 +4,23 @@
   {{ control().label }}
 </label>
 
-<div>
+<div [class]="settings.checkboxGroupContainerClasses">
   @for (option of options(); track option.value) {
-    <label>
+    <label [class]="settings.checkboxGroupItemWrapperClasses">
       <input
         [id]="control().name + '-' + option.value"
         [name]="control().name + '-' + option.value"
+        [class]="settings.checkboxGroupItemInputClasses"
         type="checkbox"
         [checked]="isSelected(option.value)"
         [disabled]="option.disabled"
         (change)="onCheckboxChange($event, option.value)" />
-      {{ option.label }}
+      <span [class]="settings.checkboxGroupItemLabelClasses">{{ option.label }}</span>
     </label>
   }
 </div>
 
-<div class="validation-feedback">
+<div [class]="settings.validationFeedbackClasses">
   <ng-container
     ngDefaultControl
     validatorMessage

@@ -58,7 +58,7 @@
   </div>
 </ng-template>
 
-<div class="validation-feedback">
+<div [class]="settings.validationFeedbackClasses">
   <ng-container
     ngDefaultControl
     validatorMessage

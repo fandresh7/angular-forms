@@ -4,22 +4,23 @@
   {{ control().label }}
 </label>
 
-<div>
+<div [class]="settings.radioGroupContainerClasses">
   @for (option of options(); track option.value) {
-    <label>
+    <label [class]="settings.radioItemWrapperClasses">
       <input
         [id]="control().name + '-' + option.value"
         [name]="control().name"
+        [class]="settings.radioItemInputClasses"
         type="radio"
         [formControlName]="control().name"
         [value]="option.value"
         [attr.aria-checked]="formControl.value === option.value ? 'true' : 'false'" />
-      {{ option.label }}
+      <span [class]="settings.radioItemLabelClasses">{{ option.label }}</span>
     </label>
   }
 </div>
 
-<div class="validation-feedback">
+<div [class]="settings.validationFeedbackClasses">
   <ng-container
     ngDefaultControl
     validatorMessage

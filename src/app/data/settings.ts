@@ -76,6 +76,26 @@ export const settings: Settings = {
   errorClasses: 'text-sm text-red-600',
   helpTextClasses: 'text-sm text-gray-500',
   inputClasses: 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed',
+  validationFeedbackClasses: 'mt-1',
+  // Select controls
+  selectClasses: 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed',
+  // Checkbox controls
+  checkboxWrapperClasses: 'flex items-center gap-2',
+  checkboxInputClasses: 'w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500',
+  checkboxLabelTextClasses: 'text-sm text-gray-700',
+  // Checkbox Group controls
+  checkboxGroupContainerClasses: 'flex flex-col gap-2',
+  checkboxGroupItemWrapperClasses: 'flex items-center gap-2',
+  checkboxGroupItemInputClasses: 'w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500',
+  checkboxGroupItemLabelClasses: 'text-sm text-gray-700',
+  // Radio controls
+  radioGroupContainerClasses: 'flex flex-col gap-2',
+  radioItemWrapperClasses: 'flex items-center gap-2',
+  radioItemInputClasses: 'w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500',
+  radioItemLabelClasses: 'text-sm text-gray-700',
+  // Group controls
+  groupContainerClasses: 'border border-gray-300 rounded-md p-4',
+  groupLegendClasses: 'text-sm font-medium text-gray-700 px-2',
   // Array controls
   legendClasses: 'block text-sm font-medium text-gray-700',
   arrayControlRemoveButtonClasses: 'inline-flex items-center gap-1 px-3 py-1 text-sm text-red-600 hover:text-red-700 border border-red-300 rounded-md hover:bg-red-50 transition-colors',
