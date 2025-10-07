@@ -70,17 +70,67 @@ export class RoundedMinusIcon {}
 })
 export class XIcon {}
 
+@Component({
+  selector: 'eye-icon',
+  template: `<svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+    <circle
+      cx="12"
+      cy="12"
+      r="3" />
+  </svg>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class EyeIcon {}
+
+@Component({
+  selector: 'eye-off-icon',
+  template: `<svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    xmlns="http://www.w3.org/2000/svg">
+    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+    <line
+      x1="2"
+      x2="22"
+      y1="2"
+      y2="22" />
+  </svg>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class EyeOffIcon {}
+
 export const settings: Settings = {
-  wrapperClasses: 'flex flex-col gap-2',
+  wrapperClasses: 'flex flex-col gap-2 relative',
   labelClasses: 'block text-sm font-medium text-gray-900 mb-1.5',
   errorClasses: 'text-xs text-red-600 mt-1.5',
   helpTextClasses: 'text-xs text-gray-500 mt-1',
   inputClasses:
     'w-full h-10 px-3 text-sm text-gray-900 bg-white border border-gray-300 rounded-md transition-colors duration-150 placeholder:text-gray-400 focus:outline-none focus:border-black hover:border-gray-400 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed',
   validationFeedbackClasses: '',
+  passwordEyeOpenIcon: EyeIcon,
+  passwordEyeCloseIcon: EyeOffIcon,
+  passwordIconClasses: 'w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer transition-colors absolute right-4 top-11',
   // Select controls
   selectClasses:
-    'w-full h-10 px-3 text-sm text-gray-900 bg-white border border-gray-300 rounded-md transition-colors duration-150 focus:outline-none focus:border-black hover:border-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer',
+    'w-full h-10 px-3 text-sm text-gray-900 bg-white border border-gray-300 rounded-md transition-colors duration-150 focus:outline-none focus:border-black hover:border-gray-400 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer',
   // Checkbox controls
   checkboxWrapperClasses: 'flex items-center gap-2',
   checkboxInputClasses: 'w-4 h-4 text-black bg-white border border-gray-300 rounded transition-all duration-150 focus:ring-2 focus:ring-black focus:ring-offset-2 cursor-pointer',

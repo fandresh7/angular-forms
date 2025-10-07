@@ -1,6 +1,6 @@
 <label
   [class]="settings.labelClasses"
-  [for]="control().name">
+  [attr.for]="control().name">
   {{ control().label }}
 </label>
 
@@ -12,6 +12,15 @@
   [formControlName]="control().name"
   [placeholder]="inputPlaceholder()"
   autocomplete="off" />
+
+@if (control().type === 'password' && eyeComponent()) {
+  <button
+    type="button"
+    [class]="settings.passwordIconClasses"
+    (click)="togglePassword()">
+    <ng-container [ngComponentOutlet]="eyeComponent()!" />
+  </button>
+}
 
 <div [class]="settings.validationFeedbackClasses">
   <ng-container

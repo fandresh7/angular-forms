@@ -8,6 +8,9 @@ export interface Settings {
   helpTextClasses?: string
   inputClasses?: string
   validationFeedbackClasses?: string
+  passwordEyeOpenIcon?: Type<unknown>
+  passwordEyeCloseIcon?: Type<unknown>
+  passwordIconClasses?: string
   // Select controls
   selectClasses?: string
   selectOptionClasses?: string

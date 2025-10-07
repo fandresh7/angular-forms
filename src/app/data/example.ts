@@ -29,6 +29,16 @@ export const example: Control[] = [
     }
   },
   {
+    label: 'Password',
+    name: 'password',
+    controlType: 'input',
+    type: 'password',
+    validators: {
+      required: true,
+      minLength: 10
+    }
+  },
+  {
     name: 'address',
     controlType: 'group',
     controls: [
